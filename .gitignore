@@ -1,2 +1,11 @@
 data/pathmnist.npz
 data/pathmnist.npz
+
+# Local Python/test environments and generated CKKS validation artifacts.
+__pycache__/
+.pytest_cache/
+.venv/
+.he-deps/
+.runtime-tmp/
+.test-*/
+results/ckks_validation/

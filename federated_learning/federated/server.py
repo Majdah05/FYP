@@ -11,11 +11,12 @@ import torch
 from torch import nn
 
 from federated_learning.datasets.partition import partition_dataset
-from federated_learning.federated.aggregation import fedavg_aggregate
+from federated_learning.federated.strategies import create_aggregation_strategy
 from federated_learning.federated.client import FederatedClient
 from federated_learning.models.cnn import PathMNISTCNN
 from federated_learning.models.mlp import TabularMLP
 from federated_learning.training.evaluation import compute_metrics, evaluate_model as evaluate_model_metrics
+from federated_learning.utils.logging import save_json
 
 
 class FederatedServer:
@@ -83,6 +84,9 @@ def run_federated_training(
         global_model = initialize_global_model(config.dataset, model_name=config.model, input_dim=64, num_classes=9)
     global_model = global_model.to(device)
     global_state = copy.deepcopy(global_model.state_dict())
+    experiment_start = time.perf_counter()
+    strategy = create_aggregation_strategy(config, global_state)
+    save_json({'config': config.__dict__, 'aggregation': strategy.metadata}, output_dir / 'experiment_config.json')
 
     # Partition the training set only.
     labels = train_loader_factory.get_labels()
@@ -100,14 +104,18 @@ def run_federated_training(
         client_loaders.append((client_id, subset))
 
     rounds_history = []
-    start_time = time.time()
+    start_time = experiment_start
 
     for round_idx in range(config.rounds):
-        round_start = time.time()
+        round_start = time.perf_counter()
         selected_clients = select_clients(config.num_clients, config.client_fraction, seed=config.seed + round_idx)
         updated_states = []
         sample_counts = []
         round_losses = []
+        client_he_metrics = []
+        strategy.begin_round(round_idx + 1, tuple(
+            (client_id, len(client_loaders[client_id][1].dataset)) for client_id in selected_clients
+        ))
 
         for client_id in selected_clients:
             client_loader = client_loaders[client_id][1]
@@ -126,12 +134,19 @@ def run_federated_training(
                 epochs=config.local_epochs,
                 lr=config.lr,
                 optimizer_name=config.optimizer,
+                update_encoder=strategy.client_encoder,
+                round_id=round_idx + 1,
             )
             round_losses.append(float(np.mean(local_result['losses'])))
-            updated_states.append(local_result['state_dict'])
+            if strategy.client_encoder is None:
+                updated_states.append(local_result['state_dict'])
+            else:
+                updated_states.append(local_result['encrypted_update'])
+                client_he_metrics.append(local_result['he_metrics'])
             sample_counts.append(local_result['num_samples'])
+            del local_result, client, client_model
 
-        global_state = fedavg_aggregate(updated_states, sample_counts)
+        global_state, he_metrics = strategy.aggregate(updated_states, sample_counts, client_he_metrics)
         global_model.load_state_dict(global_state)
 
         metrics = evaluate_model(global_model, val_loader, device=device)
@@ -140,15 +155,24 @@ def run_federated_training(
         metrics['selected_client_ids'] = selected_clients
         metrics['training_loss'] = float(np.mean(round_losses))
         metrics['per_client_training_loss'] = round_losses
-        metrics['round_time_seconds'] = time.time() - round_start
-        metrics['total_experiment_time_seconds'] = time.time() - start_time
+        metrics.update(he_metrics)
+        metrics['aggregation'] = getattr(config, 'aggregation', 'plaintext')
+        metrics['round_time_seconds'] = time.perf_counter() - round_start
+        metrics['total_experiment_time_seconds'] = time.perf_counter() - start_time
         metrics['communication_volume_bytes'] = estimate_communication_cost(selected_clients, global_model)
+        metrics['communication_volume_basis'] = 'legacy estimated plaintext model upload plus download; not measured network traffic'
+        metrics['plaintext_float_upload_bytes_estimate'] = len(selected_clients) * sum(
+            value.numel() * value.element_size() for value in global_state.values()
+            if isinstance(value, torch.Tensor) and value.is_floating_point()
+        )
         rounds_history.append(metrics)
 
         if config.save_checkpoints:
             checkpoint_path = output_dir / f'checkpoint_round_{round_idx + 1}.pt'
             torch.save({'round': round_idx + 1, 'model_state': global_model.state_dict(), 'config': config.__dict__}, checkpoint_path)
 
+    save_json({'config': config.__dict__, 'aggregation': strategy.metadata,
+               'federated_execution_time_seconds': time.perf_counter() - start_time}, output_dir / 'experiment_config.json')
     return global_model, rounds_history
 
 

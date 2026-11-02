@@ -1,0 +1,3 @@
+# Optional Microsoft SEAL-backed CKKS through the verified Python interface.
+# Install requirements.txt separately for the PyTorch baseline.
+tenseal==0.3.18
