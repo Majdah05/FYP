@@ -110,7 +110,9 @@ This keeps the federated algorithm separate from IDS-specific preprocessing and 
 
 ## 10. Security architecture
 
-This baseline is intentionally security-free. It is designed to support later addition of:
+Plaintext aggregation remains the default. Optional Microsoft SEAL CKKS aggregation is now available through TenSEAL. It encrypts sample-weighted client model contributions, sums serialized ciphertexts on a public-only server, and recovers only the authorized aggregate with a trusted decryptor. Local training and evaluation remain normal PyTorch operations. See [CKKS FedAvg](docs/ckks_fedavg.md) for the security assumptions and measured overhead.
+
+The project can later support additional mechanisms such as:
 
 - secure aggregation
 - differential privacy
@@ -155,3 +157,25 @@ Use the experiment outputs to compare:
 - communication rounds and speed trade-offs
 
 The project is intentionally modular so that the same pipeline can later be extended with security and privacy mechanisms.
+
+## Optional CKKS aggregation
+
+See the [six-run PathMNIST experiment plan](docs/ckks_experiment_plan.md) for the experiment list, seed explanation and batch-run commands.
+
+```bash
+python -m pip install -r requirements-he.txt
+python main.py --aggregation ckks --smoke_test --num_clients 3 --rounds 1 --local_epochs 1 --batch_size 32 --lr 0.01
+python main.py --config configs/pathmnist_iid_ckks.yaml
+```
+
+Omit `--aggregation` or use `--aggregation plaintext` for the original FedAvg function without importing TenSEAL. CLI values explicitly supplied by the user override YAML; missing CLI values preserve YAML settings. `main.py` still runs its full centralized comparison after federated smoke training.
+
+For matched federated runs and offline precision benchmarks:
+
+```bash
+python -m scripts.compare_he --config configs/pathmnist_iid_ckks.yaml --smoke_test --rounds 2 --device cpu --output results/paired_smoke
+python -m scripts.benchmark_ckks --full_model --client_counts 2 3 5 --repeats 3
+python -m pytest tests -q -m he
+```
+
+See [installation, architecture and metric definitions](docs/ckks_fedavg.md) and [actual validation results](docs/ckks_validation_report.md). CKKS is approximate; this one-process research simulation does not provide process isolation, threshold decryption, or protection against a malicious coordinator. The verified TenSEAL pin references SEAL 4.3.3, which needs an upgrade and revalidation before exposing deserialization to untrusted inputs.

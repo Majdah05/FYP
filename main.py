@@ -103,6 +103,7 @@ def ensure_unique_output_dir(base_dir: str) -> Path:
 
 
 def main():
+    experiment_start = time.perf_counter()
     config = parse_config()
     set_seed(config.seed)
     output_dir = ensure_unique_output_dir(config.output_dir)
@@ -146,6 +147,10 @@ def main():
     else:
         raise NotImplementedError('The IDS dataset integration is ready as an interface, but no concrete dataset is provided in this workspace yet.')
 
+    save_json({'config': config.__dict__,
+               'total_execution_time_seconds': time.perf_counter() - experiment_start,
+               'includes': 'data loading, federated training, plots, held-out tests and centralized baseline'},
+              output_dir / 'execution_summary.json')
     print(f'Experiment output directory: {output_dir}')
 
 
