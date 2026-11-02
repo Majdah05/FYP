@@ -1,0 +1,71 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 2,
+    "rounds": 3,
+    "local_epochs": 1,
+    "batch_size": 64,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "auto",
+    "output_dir": "results",
+    "save_checkpoints": false,
+    "smoke_test": true,
+    "dataset_path": null,
+    "data": {}
+  },
+  "test_metrics": {
+    "accuracy": 0.7593314763231198,
+    "macro_f1": 0.6969092322161367,
+    "precision": 0.7737280756214522,
+    "recall": 0.706333452688549,
+    "auroc": 0.9607470096977784,
+    "validation_loss": 0.9032716308019858,
+    "validation_accuracy": 0.7593314763231198,
+    "dataset": "pathmnist"
+  },
+  "history": [
+    {
+      "accuracy": 0.828968412634946,
+      "macro_f1": 0.8284243779854206,
+      "precision": 0.8336127445664584,
+      "recall": 0.8335958453911779,
+      "auroc": 0.9824551695259982,
+      "validation_loss": 0.49075417211101313,
+      "validation_accuracy": 0.828968412634946,
+      "epoch": 1,
+      "training_loss": 0.8937995558142577,
+      "epoch_time_seconds": 35.61649465560913
+    },
+    {
+      "accuracy": 0.8648540583766493,
+      "macro_f1": 0.8601108708832839,
+      "precision": 0.8775831638578158,
+      "recall": 0.8573583218260397,
+      "auroc": 0.9900584301604121,
+      "validation_loss": 0.3810138634056043,
+      "validation_accuracy": 0.8648540583766493,
+      "epoch": 2,
+      "training_loss": 0.4347546737701993,
+      "epoch_time_seconds": 73.46714520454407
+    },
+    {
+      "accuracy": 0.900639744102359,
+      "macro_f1": 0.8998459214131344,
+      "precision": 0.9137294505355804,
+      "recall": 0.8956410021990696,
+      "auroc": 0.9940834720900923,
+      "validation_loss": 0.2942503308699389,
+      "validation_accuracy": 0.900639744102359,
+      "epoch": 3,
+      "training_loss": 0.30130908921011473,
+      "epoch_time_seconds": 110.80679106712341
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 2,
+    "rounds": 1,
+    "local_epochs": 1,
+    "batch_size": 16,
+    "lr": 0.01,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "auto",
+    "output_dir": "results",
+    "save_checkpoints": true,
+    "smoke_test": true,
+    "dataset_path": null,
+    "data": {}
+  },
+  "history": [
+    {
+      "accuracy": 0.3000799680127949,
+      "macro_f1": 0.23440683187403982,
+      "precision": 0.33656789556115413,
+      "recall": 0.29924083481040076,
+      "auroc": 0.7776763750986404,
+      "validation_loss": 1.6947767972565306,
+      "validation_accuracy": 0.3000799680127949,
+      "round": 1,
+      "participating_clients": [
+        0,
+        1
+      ],
+      "selected_client_ids": [
+        0,
+        1
+      ],
+      "training_loss": 2.0552757352940176,
+      "per_client_training_loss": [
+        2.048648036928987,
+        2.0619034336590487
+      ],
+      "round_time_seconds": 118.48178505897522,
+      "total_experiment_time_seconds": 118.48179125785828,
+      "communication_volume_bytes": 3871888
+    }
+  ]
+}

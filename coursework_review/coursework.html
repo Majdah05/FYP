@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Coursework</title><style>
+:root{--a:#3b82f6;--bg:#0f172a;--s:#1e293b;--s2:#334155;--t:#e2e8f0;--m:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.65;}
+a{color:var(--a);text-decoration:none;} a:hover{text-decoration:underline;}
+code{background:#1a2540;border:1px solid #334155;border-radius:4px;padding:.1em .4em;
+     font-family:monospace;font-size:.87em;color:#93c5fd;}
+pre{background:#0a0f1e;border:1px solid #334155;border-radius:10px;padding:1.2rem;
+    overflow-x:auto;font-family:monospace;font-size:.84rem;line-height:1.7;color:#e2e8f0;}
+pre code{background:none;border:none;padding:0;color:inherit;}
+.math{background:#0a0f1e;border-left:3px solid var(--a);border-radius:0 8px 8px 0;
+      padding:.8rem 1.2rem;font-family:monospace;color:#a5f3fc;margin:.8rem 0;font-size:.95rem;}
+nav{background:var(--s);padding:.7rem 2rem;display:flex;gap:1.2rem;flex-wrap:wrap;
+    justify-content:center;border-bottom:1px solid var(--s2);position:sticky;top:0;z-index:100;}
+nav a{color:var(--m);font-size:.88rem;font-weight:500;padding:.25rem .6rem;border-radius:6px;}
+nav a:hover,nav a.active{color:var(--t);background:var(--s2);text-decoration:none;}
+header{background:linear-gradient(135deg,#1e3a5f,#0f172a);padding:3rem 2rem 2.5rem;
+       text-align:center;border-bottom:1px solid #1e3a5f;}
+header h1{font-size:2.2rem;font-weight:800;margin-bottom:.4rem;}
+header h1 span{color:var(--a);}
+header p{color:var(--m);max-width:640px;margin:.6rem auto 0;}
+main{max-width:1060px;margin:0 auto;padding:2.5rem 1.5rem;}
+h2{font-size:1.5rem;font-weight:700;margin:2.2rem 0 .8rem;
+   padding-bottom:.5rem;border-bottom:1px solid var(--s2);}
+h3{font-size:1.05rem;font-weight:700;margin:1.4rem 0 .4rem;color:#93c5fd;}
+p{margin:.5rem 0;}
+ul,ol{padding-left:1.5rem;margin:.5rem 0;} li{margin:.25rem 0;}
+.badge{display:inline-block;padding:.15rem .65rem;border-radius:999px;font-size:.76rem;font-weight:600;margin:.2rem;}
+.bb{background:#1e3a5f;color:#93c5fd;} .bg{background:#14532d;color:#86efac;}
+.by{background:#451a03;color:#fcd34d;} .br{background:#450a0a;color:#fca5a5;}
+.box{background:var(--s);border:1px solid var(--s2);border-radius:14px;padding:1.6rem;margin:1.5rem 0;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.8rem 0;}
+th{text-align:left;padding:.4rem .7rem;color:var(--m);border-bottom:2px solid var(--s2);}
+td{padding:.4rem .7rem;border-bottom:1px solid var(--s2);}
+details summary{cursor:pointer;color:var(--a);margin-top:.5rem;}
+.ans{margin-top:.5rem;background:#14532d;border-radius:6px;padding:.6rem .9rem;}
+footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;
+       border-top:1px solid var(--s2);margin-top:3rem;}
+</style></head><body><nav><a href="index.html">Home</a><a href="coursework.html" class="active">Coursework</a><a href="code_audit.html">Code Audit</a><a href="experiments.html">Experiments</a><a href="exercises.html">Exercises</a></nav>
+<header>
+  <h1>📚 <span>Coursework</span></h1>
+  <p>University-level material covering all 10 FL topics — grounded in your actual implementation.</p>
+</header>
+<main>
+
+<h2>Topic 1 — Federated Learning Fundamentals</h2>
+<div class="box">
+<h3>What Is Federated Learning?</h3>
+<p>Traditional ML requires all data centralised on one server. FL inverts this: the model travels to the data, not the other way around. Each <em>client</em> trains a local copy of the global model on its private data, then sends only the updated weights back to a central <em>server</em>, which aggregates them and broadcasts a new global model for the next round.</p>
+<p>Three motivations drive FL: <strong>Privacy</strong> (raw data never leaves the device), <strong>Communication efficiency</strong> (weights are smaller than datasets), <strong>Regulatory compliance</strong> (GDPR, HIPAA restrict data movement).</p>
+<h3>Your Implementation — <code>server.py:run_federated_training()</code></h3>
+<pre><code># server.py lines 105-133 (simplified)
+for round_idx in range(config.rounds):          # R communication rounds
+    selected = select_clients(...)               # pick C fraction of clients
+    for client_id in selected:
+        client_model = copy.deepcopy(global_model)  # broadcast: server → client
+        client.load_global_model(global_state)
+        result = client.local_train(epochs, lr)     # train privately on local data
+        updated_states.append(result['state_dict'])
+        sample_counts.append(result['num_samples'])
+    global_state = fedavg_aggregate(updated_states, sample_counts)  # aggregate
+    evaluate_model(global_model, val_loader)     # measure global progress</code></pre>
+<h3>Review Questions</h3>
+<ol>
+  <li>Why is <code>copy.deepcopy(global_model)</code> essential at line 114?</li>
+  <li>What would happen if clients shared raw gradients instead of model weights?</li>
+  <li>In your simulation, is there a real network call? What does that mean for benchmarking communication cost?</li>
+</ol>
+</div>
+
+<h2>Topic 2 — PathMNIST and Data Partitioning</h2>
+<div class="box">
+<h3>The Dataset</h3>
+<p>PathMNIST contains 28×28 RGB histology patches of colorectal tissue across 9 classes: ~89,996 train / ~10,004 val / ~7,180 test images. It is part of the MedMNIST benchmark and downloaded via the <code>medmnist</code> library.</p>
+<div style="background:#451a03;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:.8rem 1.2rem;margin:.8rem 0;font-size:.88rem;color:#fcd34d;">
+⚠️ <strong>Bug:</strong> <code>pathmnist_loader.py</code> applies only <code>ToTensor()</code>. PathMNIST has mean≈[0.741,0.533,0.706] and std≈[0.175,0.204,0.168]. Missing <code>Normalize</code> degrades convergence.
+</div>
+<h3>IID Partitioning (your default)</h3>
+<pre><code># partition.py lines 37-41
+rng = np.random.default_rng(seed)
+shuffled = rng.permutation(total_samples)   # shuffle all ~90k indices
+chunks = np.array_split(shuffled, num_clients)  # split into 5 equal groups
+# Each client ≈ 17,999 samples with balanced class distribution</code></pre>
+<h3>Non-IID Dirichlet Partitioning</h3>
+<div class="math">proportions ~ Dirichlet([α, α, ..., α])   for each class
+α = 0.5 → strong skew (one client dominates each class)
+α → ∞   → approaches uniform IID</div>
+<h3>Review Questions</h3>
+<ol>
+  <li>With 5 clients and 9 classes in IID, what is the approximate samples-per-class per client?</li>
+  <li>Why does non-IID data slow FedAvg convergence? (Think about gradient directions.)</li>
+  <li>What does the Dirichlet distribution approach as α → ∞?</li>
+</ol>
+</div>
+
+<h2>Topic 3 — CNN Architecture and Backpropagation</h2>
+<div class="box">
+<h3>PathMNISTCNN Layer-by-Layer — Input: 3×28×28</h3>
+<table>
+  <thead><tr><th>Layer</th><th>Output Shape</th><th>Params</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>Conv2d(3→32, 3×3, pad=1) + ReLU</code></td><td>32×28×28</td><td>896</td><td>Low-level edge and colour features</td></tr>
+    <tr><td><code>MaxPool2d(2)</code></td><td>32×14×14</td><td>0</td><td>Spatial downsampling, translation invariance</td></tr>
+    <tr><td><code>Conv2d(32→64, 3×3, pad=1) + ReLU</code></td><td>64×14×14</td><td>18,496</td><td>Mid-level texture patterns</td></tr>
+    <tr><td><code>MaxPool2d(2)</code></td><td>64×7×7</td><td>0</td><td>Further downsampling</td></tr>
+    <tr><td><code>Conv2d(64→128, 3×3, pad=1) + ReLU</code></td><td>128×7×7</td><td>73,856</td><td>High-level tissue structure</td></tr>
+    <tr><td><code>MaxPool2d(2)</code></td><td>128×3×3</td><td>0</td><td>floor(7/2)=3 final spatial size</td></tr>
+    <tr><td><code>Flatten → Linear(1152→128) + ReLU</code></td><td>128</td><td>147,584</td><td>Dense representation (128×3×3=1152)</td></tr>
+    <tr><td><code>Dropout(0.2)</code></td><td>128</td><td>0</td><td>Regularisation — zeros 20% of units</td></tr>
+    <tr><td><code>Linear(128→9)</code></td><td>9</td><td>1,161</td><td>Logits for 9 tissue classes</td></tr>
+  </tbody>
+</table>
+<p><strong>Total: 241,993 parameters ≈ 968 KB in float32.</strong></p>
+<h3>Backpropagation in FL</h3>
+<p>In <code>client.py:35–44</code>: (1) forward pass → logits, (2) <code>CrossEntropyLoss</code>, (3) <code>loss.backward()</code> auto-differentiates ∂L/∂W, (4) <code>optimizer.step()</code> updates W ← W − η·∂L/∂W. Only the final <code>state_dict</code> — not gradients — is sent to the server.</p>
+<h3>Review Questions</h3>
+<ol>
+  <li>Why is <code>padding=1</code> used? What would happen without it?</li>
+  <li>Verify: 28 → 14 → 7 → 3 through three MaxPool2d(2) layers.</li>
+  <li>Why does <code>ReLU(inplace=True)</code> save memory?</li>
+</ol>
+</div>
+
+<h2>Topic 4 — Local Training, Global Rounds, and Aggregation</h2>
+<div class="box">
+<h3>One Communication Round</h3>
+<ol>
+  <li><strong>Server broadcasts</strong>: <code>global_state = copy.deepcopy(global_model.state_dict())</code> — all selected clients receive identical weights.</li>
+  <li><strong>Clients train locally</strong>: <code>config.local_epochs</code> (default 2) epochs over private data with SGD(lr=0.01).</li>
+  <li><strong>Clients return</strong>: updated <code>state_dict</code> + <code>num_samples</code>.</li>
+  <li><strong>Server aggregates</strong>: <code>fedavg_aggregate(updated_states, sample_counts)</code>.</li>
+  <li><strong>Server evaluates</strong>: <code>evaluate_model(global_model, val_loader)</code> — centralised val set, no updates.</li>
+</ol>
+<h3>Effective Training Budget (default config)</h3>
+<div class="math">batches_per_client   = ceil(17,999 / 64) ≈ 282
+steps_per_round      = 5 clients × 2 epochs × 282 batches = 2,820
+total_steps_20_rounds = 56,400</div>
+<h3>Review Questions</h3>
+<ol>
+  <li>If you double <code>local_epochs</code> from 2 to 4, how does communication overhead change?</li>
+  <li>Why might more local epochs hurt convergence under non-IID data?</li>
+  <li>Where in <code>server.py</code> does the server apply the aggregated state back to the model?</li>
+</ol>
+</div>
+
+<h2>Topic 5 — FedAvg Mathematics</h2>
+<div class="box">
+<h3>Algorithm (McMahan et al., 2017)</h3>
+<div class="math">w^{t+1} = Σ_k  (n_k / N) · w_k^{t+1}
+
+  w_k^{t+1}  = weights of client k after local training in round t
+  n_k         = number of training samples on client k
+  N           = Σ_k n_k  (total participating samples)
+  w^{t+1}     = new global model weights</div>
+<h3>Numerical Example</h3>
+<p>Three clients: n₁=100, n₂=200, n₃=150 → N=450. Single weight: w₁=1.0, w₂=3.0, w₃=2.0:</p>
+<div class="math">w_global = (100/450)×1.0 + (200/450)×3.0 + (150/450)×2.0
+         = 0.222 + 1.333 + 0.667 = 2.222</div>
+<h3>Your Implementation (<code>aggregation.py:31–34</code>)</h3>
+<pre><code>if tensors[0].is_floating_point():
+    weights = torch.tensor(sample_counts, dtype=tensors[0].dtype, ...)
+    weighted = torch.stack([tensor * w for tensor, w in zip(tensors, weights)])
+    aggregated[key] = weighted.sum(dim=0) / weights.sum()
+    # Computes exactly: Σ(n_k · w_k) / Σ(n_k)  ✓</code></pre>
+<p>Non-floating-point buffers are kept from the first client — averaging integers has no mathematical meaning here.</p>
+<h3>Review Questions</h3>
+<ol>
+  <li>If all clients have equal n, how does the FedAvg formula simplify?</li>
+  <li>Why is sample-size weighting important when partitions are unequal?</li>
+  <li>What is "client drift" and why does it worsen with more local epochs?</li>
+</ol>
+</div>
+
+<h2>Topic 6 — IID vs Non-IID and Dirichlet Partitioning</h2>
+<div class="box">
+<h3>Why Distribution Matters</h3>
+<p>Under IID, each client's local gradient is an unbiased estimate of the global gradient — FedAvg converges well. Under non-IID, gradients point in different directions; averaging them yields a direction that may not minimise <em>any</em> client's loss. This is the central challenge of heterogeneous FL.</p>
+<div class="math">Dirichlet(α=0.1):  extreme skew — one client gets ~90% of each class
+Dirichlet(α=0.5):  significant skew (your default)
+Dirichlet(α=1.0):  moderate imbalance
+Dirichlet(α=10.0): near-uniform (≈ IID)</div>
+<h3>Practical Consequences</h3>
+<ul>
+  <li>A client with 95% "Adipose" images fine-tunes well for that class but degrades on others.</li>
+  <li>After aggregation, biases partially cancel — but not fully.</li>
+  <li>More local epochs (E) amplify drift because clients train further from the global optimum.</li>
+</ul>
+<h3>Review Questions</h3>
+<ol>
+  <li>Describe the class distribution for α=0.1 vs α=10.0 with 5 clients and 9 classes.</li>
+  <li>How would you implement "quantity skew" (unequal data sizes, same distribution)?</li>
+  <li>Name one FL algorithm designed to handle non-IID better than FedAvg.</li>
+</ol>
+</div>
+
+<h2>Topic 7 — Accuracy, Loss, Convergence, and Evaluation</h2>
+<div class="box">
+<h3>Metrics in <code>evaluation.py:compute_metrics()</code></h3>
+<ul>
+  <li><strong>Accuracy</strong>: fraction correctly classified.</li>
+  <li><strong>Macro F1</strong>: unweighted mean of per-class F1 — treats all 9 classes equally regardless of size.</li>
+  <li><strong>Precision / Recall</strong>: macro-averaged.</li>
+  <li><strong>AUROC</strong>: Area Under ROC (multi-class OvR, macro).</li>
+</ul>
+<h3>Why Macro F1 Matters</h3>
+<p>PathMNIST has class imbalance. A model that always predicts the most common class achieves ~30% accuracy but Macro F1 ≈ 0. Always report both.</p>
+<h3>Evaluation Is Centralised — No Leakage</h3>
+<p>Validation is done on the full global <code>val_loader</code>, never partitioned. This gives an unbiased view of global model quality. ✓</p>
+<h3>Bug: Variable Shadowing</h3>
+<pre><code># evaluation.py — BUG
+from sklearn import metrics          # line 5: 'metrics' = sklearn module
+...
+metrics = compute_metrics(...)       # line 53: 'metrics' overwrites the module!
+# Any call to metrics.f1_score() after this line would fail with AttributeError</code></pre>
+<h3>Review Questions</h3>
+<ol>
+  <li>Why is validation loss the mean of per-batch losses rather than a single forward pass?</li>
+  <li>What does AUROC=0.5 mean? What does AUROC=1.0 mean?</li>
+  <li>What would happen if <code>torch.no_grad()</code> were removed from <code>evaluate_model()</code>?</li>
+</ol>
+</div>
+
+<h2>Topic 8 — Communication and Computational Overhead</h2>
+<div class="box">
+<h3>Communication Cost Formula (<code>server.py:158–163</code>)</h3>
+<div class="math">bytes_per_round = num_selected × params × 4 bytes × 2 (upload + download)
+                = 5 × 241,993 × 4 × 2 ≈ 9.2 MB / round
+total_20_rounds = 184 MB</div>
+<h3>Trade-off Table</h3>
+<table>
+  <thead><tr><th>Parameter ↑</th><th>Communication</th><th>Computation</th><th>Convergence Quality</th></tr></thead>
+  <tbody>
+    <tr><td>More rounds</td><td>↑ linear</td><td>↑</td><td>↑ (if stable)</td></tr>
+    <tr><td>More local epochs</td><td>↔ unchanged</td><td>↑ linear</td><td>↕ (good IID, bad non-IID)</td></tr>
+    <tr><td>More clients</td><td>↑ linear</td><td>↑</td><td>↑ (more diversity)</td></tr>
+  </tbody>
+</table>
+<h3>Review Questions</h3>
+<ol>
+  <li>How would top-k gradient sparsification reduce communication cost?</li>
+  <li>Why does your <code>round_time_seconds</code> metric include evaluation time? Is that fair to report?</li>
+</ol>
+</div>
+
+<h2>Topic 9 — Privacy, Secure Aggregation, and Homomorphic Encryption</h2>
+<div class="box">
+<h3>Privacy Threats</h3>
+<p>Sending weights instead of data gives <em>some</em> privacy, but weights can still leak via:</p>
+<ul>
+  <li><strong>Gradient inversion attacks</strong>: reconstruct training images from gradients.</li>
+  <li><strong>Membership inference</strong>: determine if a specific sample was used.</li>
+</ul>
+<p>Your current implementation has <strong>no privacy mechanism</strong>.</p>
+<h3>Differential Privacy</h3>
+<div class="math">w_k += N(0, σ²·C²·I)   before uploading
+C = gradient clipping bound,  σ = noise multiplier
+Privacy budget tracked with (ε, δ)-DP</div>
+<h3>Secure Aggregation</h3>
+<p>Clients encrypt weights using pairwise masks that cancel during aggregation. The server sees only the sum — never individual updates. Library: PySyft, FATE.</p>
+<h3>Homomorphic Encryption (HE)</h3>
+<p>Server computes weighted sums on <em>encrypted</em> weights. Computationally expensive (10–1000× slower). Libraries: TenSEAL, SEAL.</p>
+<h3>Review Questions</h3>
+<ol>
+  <li>Why does more DP noise (larger σ) reduce accuracy?</li>
+  <li>What trust assumptions can you relax in a real multi-party deployment vs. your simulation?</li>
+  <li>What is the privacy advantage of secure aggregation over plain weight sharing?</li>
+</ol>
+</div>
+
+<h2>Topic 10 — Limitations and Improvements</h2>
+<div class="box">
+<h3>Current Limitations (Priority Order)</h3>
+<ol>
+  <li><strong>No normalisation</strong> — <code>pathmnist_loader.py:17</code>. Critical fix needed.</li>
+  <li><strong>Unfair baseline comparison</strong> — <code>main.py:44</code>. Fix: use <code>rounds * local_epochs</code> epochs.</li>
+  <li><strong>Non-IID duplicate bug</strong> — <code>partition.py:69–83</code>. Duplicates corrupt FL training.</li>
+  <li><strong>SGD without momentum</strong> — <code>client.py:29</code>. Add <code>momentum=0.9</code>.</li>
+  <li><strong>Fixed learning rate</strong> — no LR schedule. Add cosine decay.</li>
+  <li><strong>No privacy mechanism</strong> — no DP, no secure aggregation.</li>
+  <li><strong>Only FedAvg</strong> — consider FedProx, SCAFFOLD, FedNova.</li>
+</ol>
+<h3>High-Impact Improvements</h3>
+<pre><code># 1. Add normalisation (pathmnist_loader.py)
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize([0.741,0.533,0.706],[0.175,0.204,0.168])
+])
+
+# 2. Fix centralized baseline (main.py line 44)
+epochs=config.rounds * config.local_epochs
+
+# 3. Add momentum (client.py)
+optimizer = torch.optim.SGD(params, lr=lr, momentum=0.9)
+
+# 4. Implement FedProx proximal term (client.py local_train)
+proximal = sum((w - w_g).norm()**2 for w, w_g in zip(model.parameters(), global_params))
+loss = loss + (mu / 2) * proximal</code></pre>
+<h3>Review Questions</h3>
+<ol>
+  <li>How does FedProx's proximal term help with non-IID data?</li>
+  <li>What is SCAFFOLD and how does it address client drift?</li>
+  <li>With 100 clients and C=10 per round, how would you select which 10 to maximise convergence?</li>
+</ol>
+</div>
+</main>
+<footer>Federated Learning Coursework Review &nbsp;·&nbsp; PathMNIST + FedAvg + PyTorch &nbsp;·&nbsp; 2026-10-13</footer></body></html>

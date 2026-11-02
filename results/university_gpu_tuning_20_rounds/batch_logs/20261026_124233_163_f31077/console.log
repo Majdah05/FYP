@@ -1,0 +1,97 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261026124233
+Username: WIN2K\mga56
+RunAs User: WIN2K\mga56
+Configuration Name: 
+Machine: DSP000107018L (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Program Files\Microsoft VS Code\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 22652
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PyTorch: 2.14.1+cu126
+CUDA build: 12.6
+GPU: NVIDIA RTX 4000 Ada Generation
+GPU tensor check: 2.0
+Batch logs: C:\Users\mga56\Downloads\FederatedLearning\results\university_gpu_tuning_20_rounds\batch_logs\20261026_124233_163_f31077
+Project: C:\Users\mga56\Downloads\FederatedLearning
+Running T01 through T10 in order, with 20 rounds each.
+Each run also completes its centralized baseline before the next run starts.
+
+[1/10] T01_iid_lr0003_e5_b64
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 64 --lr 0.003 --distribution iid --output_dir results/university_gpu_tuning_20_rounds/T01_iid_lr0003_e5_b64
+Experiment output directory: results\university_gpu_tuning_20_rounds\T01_iid_lr0003_e5_b64\experiment_001
+Completed (exit code 0).
+
+[2/10] T02_noniid_lr0003_e5_b64
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 64 --lr 0.003 --distribution non_iid --output_dir results/university_gpu_tuning_20_rounds/T02_noniid_lr0003_e5_b64
+Experiment output directory: results\university_gpu_tuning_20_rounds\T02_noniid_lr0003_e5_b64\experiment_001
+Completed (exit code 0).
+
+[3/10] T03_iid_lr0005_e5_b64
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 64 --lr 0.005 --distribution iid --output_dir results/university_gpu_tuning_20_rounds/T03_iid_lr0005_e5_b64
+Experiment output directory: results\university_gpu_tuning_20_rounds\T03_iid_lr0005_e5_b64\experiment_001
+Completed (exit code 0).
+
+[4/10] T04_noniid_lr0005_e5_b64
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 64 --lr 0.005 --distribution non_iid --output_dir results/university_gpu_tuning_20_rounds/T04_noniid_lr0005_e5_b64
+Experiment output directory: results\university_gpu_tuning_20_rounds\T04_noniid_lr0005_e5_b64\experiment_001
+Completed (exit code 0).
+
+[5/10] T05_iid_lr001_e3_b64
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 3 --batch_size 64 --lr 0.01 --distribution iid --output_dir results/university_gpu_tuning_20_rounds/T05_iid_lr001_e3_b64
+Experiment output directory: results\university_gpu_tuning_20_rounds\T05_iid_lr001_e3_b64\experiment_001
+Completed (exit code 0).
+
+[6/10] T06_noniid_lr001_e3_b64
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 3 --batch_size 64 --lr 0.01 --distribution non_iid --output_dir results/university_gpu_tuning_20_rounds/T06_noniid_lr001_e3_b64
+Experiment output directory: results\university_gpu_tuning_20_rounds\T06_noniid_lr001_e3_b64\experiment_001
+Completed (exit code 0).
+
+[7/10] T07_iid_lr001_e5_b32
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 32 --lr 0.01 --distribution iid --output_dir results/university_gpu_tuning_20_rounds/T07_iid_lr001_e5_b32
+Experiment output directory: results\university_gpu_tuning_20_rounds\T07_iid_lr001_e5_b32\experiment_001
+Completed (exit code 0).
+
+[8/10] T08_noniid_lr001_e5_b32
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 32 --lr 0.01 --distribution non_iid --output_dir results/university_gpu_tuning_20_rounds/T08_noniid_lr001_e5_b32
+Experiment output directory: results\university_gpu_tuning_20_rounds\T08_noniid_lr001_e5_b32\experiment_001
+Completed (exit code 0).
+
+[9/10] T09_iid_lr001_e5_b128
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 128 --lr 0.01 --distribution iid --output_dir results/university_gpu_tuning_20_rounds/T09_iid_lr001_e5_b128
+Experiment output directory: results\university_gpu_tuning_20_rounds\T09_iid_lr001_e5_b128\experiment_001
+Completed (exit code 0).
+
+[10/10] T10_noniid_lr001_e5_b128
+& "C:\Users\mga56\Downloads\FederatedLearning\.venv\Scripts\python.exe" -u .\main.py --dataset pathmnist --model cnn --num_clients 5 --rounds 20 --optimizer sgd --momentum 0.9 --dirichlet_alpha 0.5 --client_fraction 1.0 --seed 42 --device cuda --save_checkpoints --local_epochs 5 --batch_size 128 --lr 0.01 --distribution non_iid --output_dir results/university_gpu_tuning_20_rounds/T10_noniid_lr001_e5_b128
+Experiment output directory: results\university_gpu_tuning_20_rounds\T10_noniid_lr001_e5_b128\experiment_001
+Completed (exit code 0).
+
+Experiment               Status    ExitCode ElapsedSeconds
+----------               ------    -------- --------------
+T01_iid_lr0003_e5_b64    Completed        0        2761.91
+T02_noniid_lr0003_e5_b64 Completed        0         2812.3
+T03_iid_lr0005_e5_b64    Completed        0         2881.3
+T04_noniid_lr0005_e5_b64 Completed        0        2869.02
+T05_iid_lr001_e3_b64     Completed        0        1778.91
+T06_noniid_lr001_e3_b64  Completed        0        1787.82
+T07_iid_lr001_e5_b32     Completed        0        3576.46
+T08_noniid_lr001_e5_b32  Completed        0        3567.89
+T09_iid_lr001_e5_b128    Completed        0        2795.03
+T10_noniid_lr001_e5_b128 Completed        0        2792.35
+
+
+Summary saved to: C:\Users\mga56\Downloads\FederatedLearning\results\university_gpu_tuning_20_rounds\batch_logs\20261026_124233_163_f31077\summary.csv
+All 10 experiments completed successfully.
+**********************
+Windows PowerShell transcript end
+End time: 20261026202256
+**********************

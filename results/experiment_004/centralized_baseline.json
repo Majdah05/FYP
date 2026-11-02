@@ -1,0 +1,58 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "lr": 0.01,
+    "optimizer": "sgd",
+    "distribution": "non_iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "auto",
+    "output_dir": "results",
+    "save_checkpoints": false,
+    "smoke_test": false,
+    "dataset_path": null,
+    "data": {}
+  },
+  "test_metrics": {
+    "accuracy": 0.38871866295264623,
+    "macro_f1": 0.27137808003073577,
+    "precision": 0.2818768755807792,
+    "recall": 0.29384229383080573,
+    "auroc": 0.787958302367503,
+    "validation_loss": 1.6401518013625018,
+    "validation_accuracy": 0.38871866295264623,
+    "dataset": "pathmnist"
+  },
+  "history": [
+    {
+      "accuracy": 0.304578168732507,
+      "macro_f1": 0.22353752240908648,
+      "precision": 0.2723899171541839,
+      "recall": 0.2824985777209558,
+      "auroc": 0.7090382763822344,
+      "validation_loss": 1.9456264995465613,
+      "validation_accuracy": 0.304578168732507,
+      "epoch": 1,
+      "training_loss": 2.139819816739829,
+      "epoch_time_seconds": 28.42327046394348
+    },
+    {
+      "accuracy": 0.3360655737704918,
+      "macro_f1": 0.2801537483428931,
+      "precision": 0.28829610166484043,
+      "recall": 0.3264594803903322,
+      "auroc": 0.7962883587691691,
+      "validation_loss": 1.6601511323527924,
+      "validation_accuracy": 0.3360655737704918,
+      "epoch": 2,
+      "training_loss": 1.7408556562835813,
+      "epoch_time_seconds": 56.786866188049316
+    }
+  ]
+}

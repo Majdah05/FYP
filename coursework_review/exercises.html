@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Exercises</title><style>
+:root{--a:#3b82f6;--bg:#0f172a;--s:#1e293b;--s2:#334155;--t:#e2e8f0;--m:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.65;}
+a{color:var(--a);text-decoration:none;} a:hover{text-decoration:underline;}
+code{background:#1a2540;border:1px solid #334155;border-radius:4px;padding:.1em .4em;
+     font-family:monospace;font-size:.87em;color:#93c5fd;}
+pre{background:#0a0f1e;border:1px solid #334155;border-radius:10px;padding:1.2rem;
+    overflow-x:auto;font-family:monospace;font-size:.84rem;line-height:1.7;color:#e2e8f0;}
+pre code{background:none;border:none;padding:0;color:inherit;}
+.math{background:#0a0f1e;border-left:3px solid var(--a);border-radius:0 8px 8px 0;
+      padding:.8rem 1.2rem;font-family:monospace;color:#a5f3fc;margin:.8rem 0;font-size:.95rem;}
+nav{background:var(--s);padding:.7rem 2rem;display:flex;gap:1.2rem;flex-wrap:wrap;
+    justify-content:center;border-bottom:1px solid var(--s2);position:sticky;top:0;z-index:100;}
+nav a{color:var(--m);font-size:.88rem;font-weight:500;padding:.25rem .6rem;border-radius:6px;}
+nav a:hover,nav a.active{color:var(--t);background:var(--s2);text-decoration:none;}
+header{background:linear-gradient(135deg,#1e3a5f,#0f172a);padding:3rem 2rem 2.5rem;
+       text-align:center;border-bottom:1px solid #1e3a5f;}
+header h1{font-size:2.2rem;font-weight:800;margin-bottom:.4rem;}
+header h1 span{color:var(--a);}
+header p{color:var(--m);max-width:640px;margin:.6rem auto 0;}
+main{max-width:1060px;margin:0 auto;padding:2.5rem 1.5rem;}
+h2{font-size:1.5rem;font-weight:700;margin:2.2rem 0 .8rem;
+   padding-bottom:.5rem;border-bottom:1px solid var(--s2);}
+h3{font-size:1.05rem;font-weight:700;margin:1.4rem 0 .4rem;color:#93c5fd;}
+p{margin:.5rem 0;}
+ul,ol{padding-left:1.5rem;margin:.5rem 0;} li{margin:.25rem 0;}
+.badge{display:inline-block;padding:.15rem .65rem;border-radius:999px;font-size:.76rem;font-weight:600;margin:.2rem;}
+.bb{background:#1e3a5f;color:#93c5fd;} .bg{background:#14532d;color:#86efac;}
+.by{background:#451a03;color:#fcd34d;} .br{background:#450a0a;color:#fca5a5;}
+.box{background:var(--s);border:1px solid var(--s2);border-radius:14px;padding:1.6rem;margin:1.5rem 0;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.8rem 0;}
+th{text-align:left;padding:.4rem .7rem;color:var(--m);border-bottom:2px solid var(--s2);}
+td{padding:.4rem .7rem;border-bottom:1px solid var(--s2);}
+details summary{cursor:pointer;color:var(--a);margin-top:.5rem;}
+.ans{margin-top:.5rem;background:#14532d;border-radius:6px;padding:.6rem .9rem;}
+footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;
+       border-top:1px solid var(--s2);margin-top:3rem;}
+</style></head><body><nav><a href="index.html">Home</a><a href="coursework.html">Coursework</a><a href="code_audit.html">Code Audit</a><a href="experiments.html">Experiments</a><a href="exercises.html" class="active">Exercises</a></nav>
+<header>
+  <h1>✏️ <span>Exercises</span></h1>
+  <p>MCQs, FedAvg calculations, code-tracing, and debugging challenges — all from your codebase.</p>
+</header>
+<main>
+
+<h2>Section A — Multiple Choice Questions</h2>
+
+<div class="box">
+<h3>Q1. What does <code>copy.deepcopy(global_model)</code> at server.py:114 prevent?</h3>
+<ol type="a">
+  <li>It prevents the client from using GPU memory</li>
+  <li>It prevents clients from accidentally modifying the server's global model during local training</li>
+  <li>It copies the model to a different device</li>
+  <li>It prevents gradient accumulation</li>
+</ol>
+<details><summary>Show Answer</summary>
+<div class="ans"><strong>b)</strong> Without deepcopy, all clients share a reference to the same model object. Any parameter update by one client would instantly affect others, breaking the independence assumption of FedAvg.</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Q2. After three MaxPool2d(2) layers applied to 28×28 input, the spatial size is:</h3>
+<ol type="a">
+  <li>4×4</li>
+  <li>3×3</li>
+  <li>2×2</li>
+  <li>7×7</li>
+</ol>
+<details><summary>Show Answer</summary>
+<div class="ans"><strong>b) 3×3.</strong> MaxPool2d(2) divides each dimension by 2 (floor): 28 → 14 → 7 → floor(7/2)=3. This is why <code>Linear(128×3×3=1152, 128)</code> is correct.</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Q3. Why does FedAvg weight client contributions by sample count?</h3>
+<ol type="a">
+  <li>To give more power to richer clients</li>
+  <li>Because clients with more data computed more gradient steps</li>
+  <li>Because unweighted averaging over-represents small clients and under-represents large ones, biasing the global model</li>
+  <li>To ensure equal communication cost</li>
+</ol>
+<details><summary>Show Answer</summary>
+<div class="ans"><strong>c)</strong> With unweighted averaging, a client with 10 samples gets the same vote as one with 10,000. Sample-size weighting ensures the global model reflects the empirical distribution across all data.</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Q4. Which statement about the validation set in your code is true?</h3>
+<ol type="a">
+  <li>It is partitioned among clients with the same strategy as training data</li>
+  <li>It is split 50/50 between clients</li>
+  <li>It remains centralised and is never partitioned — all evaluation is on the global val_loader</li>
+  <li>Each client evaluates on its own subset of the validation set</li>
+</ol>
+<details><summary>Show Answer</summary>
+<div class="ans"><strong>c)</strong> <code>val_loader</code> is created from the full MedMNIST val split in <code>pathmnist_loader.py</code> and passed directly to <code>run_federated_training()</code> without partitioning. This gives an unbiased global performance estimate. ✓</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Q5. What is wrong with the smoke test in main.py lines 76–83?</h3>
+<ol type="a">
+  <li>It uses too many GPU resources</li>
+  <li>The lambda returns all ~90k labels instead of the 64-sample subset, so FL trains on the full dataset</li>
+  <li>It doesn't save checkpoints</li>
+  <li>It uses the wrong model architecture</li>
+</ol>
+<details><summary>Show Answer</summary>
+<div class="ans"><strong>b)</strong> <code>subset_factory.get_labels = lambda: train_subset_labels</code> where <code>train_subset_labels</code> contains all ~90k labels. <code>partition_dataset</code> receives all labels and partitions the full training set, defeating the purpose of the smoke test.</div>
+</details>
+</div>
+
+<h2>Section B — FedAvg Calculation Problems</h2>
+
+<div class="box">
+<h3>Problem 1 — Manual FedAvg</h3>
+<p>Three clients participate in round 1. After local training:</p>
+<ul>
+  <li>Client A: w = 2.0, n = 50 samples</li>
+  <li>Client B: w = 6.0, n = 150 samples</li>
+  <li>Client C: w = 4.0, n = 100 samples</li>
+</ul>
+<p>Compute the FedAvg global weight.</p>
+<details><summary>Show Solution</summary>
+<div class="ans">
+<div class="math">N = 50 + 150 + 100 = 300
+w_global = (50/300)×2.0 + (150/300)×6.0 + (100/300)×4.0
+         = 0.1667×2.0 + 0.5×6.0 + 0.3333×4.0
+         = 0.333 + 3.000 + 1.333 = 4.667</div>
+<p>Verify:</p>
+<pre><code>import torch
+from federated_learning.federated.aggregation import fedavg_aggregate
+result = fedavg_aggregate(
+    [{'w': torch.tensor([2.0])},
+     {'w': torch.tensor([6.0])},
+     {'w': torch.tensor([4.0])}],
+    [50, 150, 100]
+)
+print(result['w'])  # tensor([4.6667])</code></pre>
+</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Problem 2 — Communication Cost</h3>
+<p>Compute total bytes for 20 rounds, 5 clients (all participating), PathMNISTCNN (241,993 params), float32.</p>
+<details><summary>Show Solution</summary>
+<div class="ans">
+<div class="math">bytes_per_round = 5 clients × 241,993 params × 4 bytes × 2 directions
+                = 9,679,720 bytes ≈ 9.2 MB per round
+total           = 20 × 9.2 = 184 MB</div>
+<p>For comparison: PathMNIST training data ≈ 90k × 28×28×3 ≈ 212 MB. FL transfers similar bandwidth but never exposes raw images.</p>
+</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Problem 3 — Client Drift</h3>
+<p>A client starts with global weight w_g = 1.0. Local gradient is constant ∂L/∂w = −2.0. SGD lr=0.1.</p>
+<p><strong>a)</strong> Weight after E=1 step? &nbsp;<strong>b)</strong> After E=5 steps? &nbsp;<strong>c)</strong> A second client has constant gradient +2.0. With equal n, what is FedAvg after E=5?</p>
+<details><summary>Show Solution</summary>
+<div class="ans">
+<div class="math">a) w = 1.0 − 0.1×(−2.0) = 1.2
+b) w = 1.0 + 5×0.2 = 2.0
+c) Client 2: w = 1.0 − 5×0.2 = 0.0
+   FedAvg: (2.0 + 0.0) / 2 = 1.0  (back to start!)</div>
+<p>This illustrates <em>client drift</em>: clients with opposing gradients cancel each other after averaging, making no net progress despite local training. This is why non-IID + high E is damaging.</p>
+</div>
+</details>
+</div>
+
+<h2>Section C — Code Tracing</h2>
+
+<div class="box">
+<h3>Trace 1 — What does this return?</h3>
+<pre><code>from federated_learning.federated.server import select_clients
+result = select_clients(num_clients=10, client_fraction=0.4, seed=42)
+print(type(result), len(result), result)</code></pre>
+<p>Without running: what are the type, length, and properties of <code>result</code>?</p>
+<details><summary>Show Answer</summary>
+<div class="ans"><code>result</code> is a <strong>sorted list of ints</strong>, length <strong>4</strong> (int(round(0.4×10))=4), with unique values in [0,9], no duplicates (replace=False in rng.choice). The specific values depend on np.random.default_rng(42).</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Trace 2 — CNN Shape Trace</h3>
+<p>Input: <code>x = torch.randn(8, 3, 28, 28)</code>. Trace the output shape through every layer of PathMNISTCNN.</p>
+<details><summary>Show Answer</summary>
+<div class="ans">
+<div class="math">[8, 3,  28, 28]  → Conv2d(3→32)   → [8, 32, 28, 28]
+[8, 32, 28, 28]  → MaxPool2d(2)   → [8, 32, 14, 14]
+[8, 32, 14, 14]  → Conv2d(32→64)  → [8, 64, 14, 14]
+[8, 64, 14, 14]  → MaxPool2d(2)   → [8, 64,  7,  7]
+[8, 64,  7,  7]  → Conv2d(64→128) → [8,128,  7,  7]
+[8,128,  7,  7]  → MaxPool2d(2)   → [8,128,  3,  3]
+[8,128,  3,  3]  → Flatten        → [8, 1152]
+[8, 1152]        → Linear(→128)   → [8,  128]
+[8,  128]        → Dropout+Linear → [8,    9]</div>
+</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Trace 3 — FedAvg Unit Test Value</h3>
+<pre><code>state_1 = {'w': torch.tensor([[1.0, 2.0], [3.0, 4.0]])}
+state_2 = {'w': torch.tensor([[5.0, 6.0], [7.0, 8.0]])}
+result = fedavg_aggregate([state_1, state_2], [10, 30])
+# What is result['w'][0][0]?</code></pre>
+<details><summary>Show Answer</summary>
+<div class="ans"><code>(10×1.0 + 30×5.0) / 40 = (10 + 150) / 40 = 160/40 = <strong>4.0</strong></code></div>
+</details>
+</div>
+
+<h2>Section D — Debugging Challenges</h2>
+
+<div class="box">
+<h3>Debug 1 — Find the bug</h3>
+<pre><code>def evaluate_model(model, data_loader, device='cpu', criterion=None):
+    device = torch.device(device)
+    model.train()   # ← student changed this line
+    criterion = criterion or torch.nn.CrossEntropyLoss()
+    outputs_all, labels_all, losses = [], [], []
+    for inputs, targets in data_loader:
+        logits = model(inputs.to(device))
+        loss = criterion(logits, targets.to(device).view(-1).long())
+        losses.append(float(loss.item()))
+        ...</code></pre>
+<details><summary>Show Answer</summary>
+<div class="ans"><code>model.train()</code> enables Dropout (randomly zeroes neurons) and BatchNorm training mode. Evaluation results become non-deterministic — the same input gives different outputs each pass. Also, without <code>torch.no_grad()</code>, gradients are computed unnecessarily, wasting memory. Fix: <code>model.eval()</code> + <code>with torch.no_grad():</code>.</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Debug 2 — What is wrong?</h3>
+<pre><code>global_state = fedavg_aggregate(
+    updated_states,
+    sample_counts=[1] * len(updated_states)   # ← bug here
+)</code></pre>
+<details><summary>Show Answer</summary>
+<div class="ans">Using <code>[1,1,1,...]</code> gives every client equal weight regardless of actual sample count. This is <strong>unweighted averaging</strong>, not FedAvg. With unequal client data sizes, small clients will disproportionately influence the global model. Pass the real <code>sample_counts</code> list.</div>
+</details>
+</div>
+
+<div class="box">
+<h3>Debug 3 — Why are these results misleading?</h3>
+<pre><code># Experiment A: Federated IID, 20 rounds, 2 local_epochs
+#   → reports 80% validation accuracy
+# Experiment B: Centralized baseline
+#   → epochs = max(1, config.local_epochs) = 2 epochs
+#   → reports 65% validation accuracy
+# Conclusion: "FL outperforms centralized by 15%!"</code></pre>
+<details><summary>Show Answer</summary>
+<div class="ans">The federated model trains for 20 rounds × 2 epochs = <strong>40 equivalent data passes</strong>. The centralized baseline trains for only <strong>2 epochs</strong>. The comparison is completely invalid — of course 40 epochs beats 2. For a fair comparison, centralized should train for <code>rounds × local_epochs = 40</code> epochs (Bug #4, <code>main.py:44</code>).</div>
+</details>
+</div>
+
+<h2>Section E — Essay Questions</h2>
+
+<div class="box">
+<h3>Essay 1 (300–400 words)</h3>
+<p>Explain step-by-step what happens during one communication round in your FedAvg implementation. Reference specific functions and line numbers. Cover: global state broadcast, deepcopy isolation, the local_train loop, state_dict return, fedavg_aggregate math, model update, evaluation, and checkpointing.</p>
+</div>
+
+<div class="box">
+<h3>Essay 2 (200–300 words)</h3>
+<p>A colleague argues: "Our FL implementation must be correct because the unit tests pass." Critically evaluate this with reference to your actual test suite. What does each test verify, and what critical correctness properties go untested?</p>
+<p style="color:var(--m);font-size:.85rem;">Hint: the tests check weighted averaging, client model loading, partial participation, and eval isolation — but not normalisation, the unfair baseline, the non-IID duplicate bug, or smoke test correctness.</p>
+</div>
+
+<div class="box">
+<h3>Essay 3 (300–400 words)</h3>
+<p>You want to add differential privacy using PyTorch Opacus. Describe: (a) where in the code to add DP noise, (b) hyperparameters to introduce, (c) expected effect on accuracy, and (d) how to measure the privacy budget (ε, δ) over 20 rounds.</p>
+</div>
+
+</main>
+<footer>Federated Learning Coursework Review &nbsp;·&nbsp; PathMNIST + FedAvg + PyTorch &nbsp;·&nbsp; 2026-10-13</footer></body></html>

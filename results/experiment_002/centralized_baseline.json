@@ -1,0 +1,46 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 2,
+    "rounds": 1,
+    "local_epochs": 1,
+    "batch_size": 16,
+    "lr": 0.01,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "auto",
+    "output_dir": "results",
+    "save_checkpoints": true,
+    "smoke_test": true,
+    "dataset_path": null,
+    "data": {}
+  },
+  "test_metrics": {
+    "accuracy": 0.4520891364902507,
+    "macro_f1": 0.37076799987053594,
+    "precision": 0.4701505722818548,
+    "recall": 0.3862711932280805,
+    "auroc": 0.8715445727436606,
+    "validation_loss": 1.4093393844060749,
+    "validation_accuracy": 0.4520891364902507,
+    "dataset": "pathmnist"
+  },
+  "history": [
+    {
+      "accuracy": 0.444922031187525,
+      "macro_f1": 0.41347880603028686,
+      "precision": 0.47921767715354807,
+      "recall": 0.4487141089732807,
+      "auroc": 0.8627478413325815,
+      "validation_loss": 1.446788226358426,
+      "validation_accuracy": 0.444922031187525,
+      "epoch": 1,
+      "training_loss": 1.8134568780899047,
+      "epoch_time_seconds": 114.28733444213867
+    }
+  ]
+}

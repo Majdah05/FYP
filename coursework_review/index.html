@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>FL Project Hub</title><style>
+:root{--a:#3b82f6;--bg:#0f172a;--s:#1e293b;--s2:#334155;--t:#e2e8f0;--m:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.65;}
+a{color:var(--a);text-decoration:none;} a:hover{text-decoration:underline;}
+code{background:#1a2540;border:1px solid #334155;border-radius:4px;padding:.1em .4em;
+     font-family:monospace;font-size:.87em;color:#93c5fd;}
+pre{background:#0a0f1e;border:1px solid #334155;border-radius:10px;padding:1.2rem;
+    overflow-x:auto;font-family:monospace;font-size:.84rem;line-height:1.7;color:#e2e8f0;}
+pre code{background:none;border:none;padding:0;color:inherit;}
+.math{background:#0a0f1e;border-left:3px solid var(--a);border-radius:0 8px 8px 0;
+      padding:.8rem 1.2rem;font-family:monospace;color:#a5f3fc;margin:.8rem 0;font-size:.95rem;}
+nav{background:var(--s);padding:.7rem 2rem;display:flex;gap:1.2rem;flex-wrap:wrap;
+    justify-content:center;border-bottom:1px solid var(--s2);position:sticky;top:0;z-index:100;}
+nav a{color:var(--m);font-size:.88rem;font-weight:500;padding:.25rem .6rem;border-radius:6px;}
+nav a:hover,nav a.active{color:var(--t);background:var(--s2);text-decoration:none;}
+header{background:linear-gradient(135deg,#1e3a5f,#0f172a);padding:3rem 2rem 2.5rem;
+       text-align:center;border-bottom:1px solid #1e3a5f;}
+header h1{font-size:2.2rem;font-weight:800;margin-bottom:.4rem;}
+header h1 span{color:var(--a);}
+header p{color:var(--m);max-width:640px;margin:.6rem auto 0;}
+main{max-width:1060px;margin:0 auto;padding:2.5rem 1.5rem;}
+h2{font-size:1.5rem;font-weight:700;margin:2.2rem 0 .8rem;
+   padding-bottom:.5rem;border-bottom:1px solid var(--s2);}
+h3{font-size:1.05rem;font-weight:700;margin:1.4rem 0 .4rem;color:#93c5fd;}
+p{margin:.5rem 0;}
+ul,ol{padding-left:1.5rem;margin:.5rem 0;} li{margin:.25rem 0;}
+.badge{display:inline-block;padding:.15rem .65rem;border-radius:999px;font-size:.76rem;font-weight:600;margin:.2rem;}
+.bb{background:#1e3a5f;color:#93c5fd;} .bg{background:#14532d;color:#86efac;}
+.by{background:#451a03;color:#fcd34d;} .br{background:#450a0a;color:#fca5a5;}
+.box{background:var(--s);border:1px solid var(--s2);border-radius:14px;padding:1.6rem;margin:1.5rem 0;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.8rem 0;}
+th{text-align:left;padding:.4rem .7rem;color:var(--m);border-bottom:2px solid var(--s2);}
+td{padding:.4rem .7rem;border-bottom:1px solid var(--s2);}
+details summary{cursor:pointer;color:var(--a);margin-top:.5rem;}
+.ans{margin-top:.5rem;background:#14532d;border-radius:6px;padding:.6rem .9rem;}
+footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;
+       border-top:1px solid var(--s2);margin-top:3rem;}
+</style></head><body><nav><a href="index.html" class="active">Home</a><a href="coursework.html">Coursework</a><a href="code_audit.html">Code Audit</a><a href="experiments.html">Experiments</a><a href="exercises.html">Exercises</a></nav>
+<header>
+  <h1>Federated Learning — <span>PathMNIST</span></h1>
+  <p>Code review, educational coursework, and research roadmap for your FedAvg implementation on 9-class medical imaging data.</p>
+  <div style="margin-top:1rem;">
+    <span class="badge bb">FedAvg</span><span class="badge bb">PathMNIST</span>
+    <span class="badge bb">CNN</span><span class="badge bg">PyTorch</span>
+    <span class="badge by">9 Issues Found</span><span class="badge br">2 Critical</span>
+  </div>
+</header>
+<main>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin:2rem 0;">
+  <div class="box" style="text-align:center;padding:1rem;"><div style="font-size:2rem;font-weight:800;color:var(--a);">5</div><div style="color:var(--m);font-size:.78rem;">Clients (default)</div></div>
+  <div class="box" style="text-align:center;padding:1rem;"><div style="font-size:2rem;font-weight:800;color:var(--a);">20</div><div style="color:var(--m);font-size:.78rem;">FL Rounds</div></div>
+  <div class="box" style="text-align:center;padding:1rem;"><div style="font-size:2rem;font-weight:800;color:var(--a);">9</div><div style="color:var(--m);font-size:.78rem;">PathMNIST Classes</div></div>
+  <div class="box" style="text-align:center;padding:1rem;"><div style="font-size:1.4rem;font-weight:800;color:var(--a);">3×28×28</div><div style="color:var(--m);font-size:.78rem;">Input Shape</div></div>
+  <div class="box" style="text-align:center;padding:1rem;"><div style="font-size:1.5rem;font-weight:800;color:var(--a);">FedAvg</div><div style="color:var(--m);font-size:.78rem;">Algorithm</div></div>
+  <div class="box" style="text-align:center;padding:1rem;"><div style="font-size:2rem;font-weight:800;color:#ef4444;">9</div><div style="color:var(--m);font-size:.78rem;">Bugs Found</div></div>
+</div>
+
+<h2>Study Sections</h2>
+<div class="grid2">
+  <a href="coursework.html" class="box" style="display:block;color:inherit;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--a)'" onmouseout="this.style.borderColor=''">
+    <div style="font-size:1.8rem;margin-bottom:.6rem;">📚</div>
+    <strong>Coursework</strong>
+    <p style="color:var(--m);font-size:.85rem;margin-top:.3rem;">10 FL topics with math, code references, and examples from your actual implementation.</p>
+  </a>
+  <a href="code_audit.html" class="box" style="display:block;color:inherit;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--a)'" onmouseout="this.style.borderColor=''">
+    <div style="font-size:1.8rem;margin-bottom:.6rem;">🔍</div>
+    <strong>Code Audit</strong>
+    <p style="color:var(--m);font-size:.85rem;margin-top:.3rem;">2 critical + 3 major + 4 minor bugs with exact line numbers, consequences, and fixes.</p>
+  </a>
+  <a href="experiments.html" class="box" style="display:block;color:inherit;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--a)'" onmouseout="this.style.borderColor=''">
+    <div style="font-size:1.8rem;margin-bottom:.6rem;">🧪</div>
+    <strong>Experiments</strong>
+    <p style="color:var(--m);font-size:.85rem;margin-top:.3rem;">8 research experiments comparing IID, non-IID, clients, local epochs, and aggregation.</p>
+  </a>
+  <a href="exercises.html" class="box" style="display:block;color:inherit;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--a)'" onmouseout="this.style.borderColor=''">
+    <div style="font-size:1.8rem;margin-bottom:.6rem;">✏️</div>
+    <strong>Exercises</strong>
+    <p style="color:var(--m);font-size:.85rem;margin-top:.3rem;">MCQs, FedAvg calculations, code-tracing, and debugging challenges.</p>
+  </a>
+</div>
+
+<div class="box">
+  <h3 style="margin-top:0;">Execution Flow</h3>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;padding:1rem;background:#0a0f1e;border-radius:10px;border:1px solid var(--s2);">
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">parse_config()</span><span style="color:var(--m);">→</span>
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">load_pathmnist_data()</span><span style="color:var(--m);">→</span>
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">partition_dataset()</span><span style="color:var(--m);">→</span>
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">FedAvg Loop × R</span><span style="color:var(--m);">→</span>
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">evaluate_model()</span><span style="color:var(--m);">→</span>
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">Centralized Baseline</span><span style="color:var(--m);">→</span>
+    <span style="background:var(--s);border:1px solid var(--a);border-radius:7px;padding:.35rem .8rem;font-size:.82rem;font-weight:600;">Save Results</span>
+  </div>
+  <p style="color:var(--m);font-size:.84rem;margin-top:.7rem;">Within each FL round: select clients → deepcopy global model → <code>local_train()</code> → <code>fedavg_aggregate()</code> → update global → eval on val set.</p>
+</div>
+
+<div class="box">
+  <h3 style="margin-top:0;">Project Structure</h3>
+  <pre style="font-size:.83rem;line-height:1.9;"><span style="color:#93c5fd;">FederatedLearning/</span>
+├── <span style="color:#86efac;">main.py</span>                   <span style="color:var(--m);">entry point, orchestrates full pipeline</span>
+├── <span style="color:#93c5fd;">federated_learning/</span>
+│   ├── <span style="color:#86efac;">config.py</span>             <span style="color:var(--m);">ExperimentConfig dataclass + CLI parser</span>
+│   ├── <span style="color:#93c5fd;">datasets/</span>             <span style="color:var(--m);">pathmnist_loader.py · partition.py · ids_loader.py</span>
+│   ├── <span style="color:#93c5fd;">models/</span>               <span style="color:var(--m);">cnn.py (PathMNISTCNN) · mlp.py (TabularMLP)</span>
+│   ├── <span style="color:#93c5fd;">federated/</span>            <span style="color:var(--m);">server.py · client.py · aggregation.py</span>
+│   ├── <span style="color:#93c5fd;">training/</span>             <span style="color:var(--m);">centralized.py · evaluation.py</span>
+│   └── <span style="color:#93c5fd;">utils/</span>               <span style="color:var(--m);">logging.py · plotting.py</span>
+├── <span style="color:#93c5fd;">configs/</span>                  <span style="color:var(--m);">pathmnist_iid.yaml · pathmnist_non_iid.yaml</span>
+├── <span style="color:#93c5fd;">tests/</span>                    <span style="color:var(--m);">test_fedavg.py · test_partition.py</span>
+└── <span style="color:#93c5fd;">results/</span>                  <span style="color:var(--m);">auto-generated per-experiment outputs</span></pre>
+</div>
+
+<div class="box">
+  <h3 style="margin-top:0;">Audit Findings Summary</h3>
+  <table>
+    <thead><tr><th>Severity</th><th>Location</th><th>Issue</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge br">CRITICAL</span></td><td><code>partition.py L69–83</code></td><td>Duplicate removal computes unique list but never writes it back to <code>client_indices</code>.</td></tr>
+      <tr><td><span class="badge br">CRITICAL</span></td><td><code>evaluation.py L53</code></td><td><code>metrics</code> variable shadows the imported <code>sklearn.metrics</code> module.</td></tr>
+      <tr><td><span class="badge by">MAJOR</span></td><td><code>pathmnist_loader.py L17</code></td><td>No normalisation transform — pixels in [0,1] with ~0.74 mean degrade convergence.</td></tr>
+      <tr><td><span class="badge by">MAJOR</span></td><td><code>main.py L44</code></td><td>Centralized baseline trains 2 epochs vs federated's 40 — unfair comparison.</td></tr>
+      <tr><td><span class="badge by">MAJOR</span></td><td><code>main.py L76–83</code></td><td>Smoke-test lambda returns all ~90k labels instead of the 64-sample subset.</td></tr>
+      <tr><td><span class="badge bb">MINOR</span></td><td><code>client.py L29</code></td><td>SGD constructed without momentum — significantly slower convergence.</td></tr>
+      <tr><td><span class="badge bb">MINOR</span></td><td><code>evaluation.py L56</code></td><td>No-op self-assignment <code>metrics['macro_f1'] = metrics['macro_f1']</code>.</td></tr>
+      <tr><td><span class="badge bb">MINOR</span></td><td><code>server.py L134–138</code></td><td>Manual <code>param.data.copy_()</code> loop should be <code>load_state_dict()</code>.</td></tr>
+      <tr><td><span class="badge bg">INFO</span></td><td><code>server.py L107</code></td><td>Per-round seeding <code>seed+round_idx</code>: correct but undocumented.</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:.8rem;font-size:.88rem;"><a href="code_audit.html">→ Full audit with fixes and verification tests</a></p>
+</div>
+</main>
+<footer>Federated Learning Coursework Review &nbsp;·&nbsp; PathMNIST + FedAvg + PyTorch &nbsp;·&nbsp; 2026-10-13</footer></body></html>

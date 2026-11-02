@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Code Audit</title><style>
+:root{--a:#3b82f6;--bg:#0f172a;--s:#1e293b;--s2:#334155;--t:#e2e8f0;--m:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.65;}
+a{color:var(--a);text-decoration:none;} a:hover{text-decoration:underline;}
+code{background:#1a2540;border:1px solid #334155;border-radius:4px;padding:.1em .4em;
+     font-family:monospace;font-size:.87em;color:#93c5fd;}
+pre{background:#0a0f1e;border:1px solid #334155;border-radius:10px;padding:1.2rem;
+    overflow-x:auto;font-family:monospace;font-size:.84rem;line-height:1.7;color:#e2e8f0;}
+pre code{background:none;border:none;padding:0;color:inherit;}
+.math{background:#0a0f1e;border-left:3px solid var(--a);border-radius:0 8px 8px 0;
+      padding:.8rem 1.2rem;font-family:monospace;color:#a5f3fc;margin:.8rem 0;font-size:.95rem;}
+nav{background:var(--s);padding:.7rem 2rem;display:flex;gap:1.2rem;flex-wrap:wrap;
+    justify-content:center;border-bottom:1px solid var(--s2);position:sticky;top:0;z-index:100;}
+nav a{color:var(--m);font-size:.88rem;font-weight:500;padding:.25rem .6rem;border-radius:6px;}
+nav a:hover,nav a.active{color:var(--t);background:var(--s2);text-decoration:none;}
+header{background:linear-gradient(135deg,#1e3a5f,#0f172a);padding:3rem 2rem 2.5rem;
+       text-align:center;border-bottom:1px solid #1e3a5f;}
+header h1{font-size:2.2rem;font-weight:800;margin-bottom:.4rem;}
+header h1 span{color:var(--a);}
+header p{color:var(--m);max-width:640px;margin:.6rem auto 0;}
+main{max-width:1060px;margin:0 auto;padding:2.5rem 1.5rem;}
+h2{font-size:1.5rem;font-weight:700;margin:2.2rem 0 .8rem;
+   padding-bottom:.5rem;border-bottom:1px solid var(--s2);}
+h3{font-size:1.05rem;font-weight:700;margin:1.4rem 0 .4rem;color:#93c5fd;}
+p{margin:.5rem 0;}
+ul,ol{padding-left:1.5rem;margin:.5rem 0;} li{margin:.25rem 0;}
+.badge{display:inline-block;padding:.15rem .65rem;border-radius:999px;font-size:.76rem;font-weight:600;margin:.2rem;}
+.bb{background:#1e3a5f;color:#93c5fd;} .bg{background:#14532d;color:#86efac;}
+.by{background:#451a03;color:#fcd34d;} .br{background:#450a0a;color:#fca5a5;}
+.box{background:var(--s);border:1px solid var(--s2);border-radius:14px;padding:1.6rem;margin:1.5rem 0;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.8rem 0;}
+th{text-align:left;padding:.4rem .7rem;color:var(--m);border-bottom:2px solid var(--s2);}
+td{padding:.4rem .7rem;border-bottom:1px solid var(--s2);}
+details summary{cursor:pointer;color:var(--a);margin-top:.5rem;}
+.ans{margin-top:.5rem;background:#14532d;border-radius:6px;padding:.6rem .9rem;}
+footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;
+       border-top:1px solid var(--s2);margin-top:3rem;}
+</style></head><body><nav><a href="index.html">Home</a><a href="coursework.html">Coursework</a><a href="code_audit.html" class="active">Code Audit</a><a href="experiments.html">Experiments</a><a href="exercises.html">Exercises</a></nav>
+<header>
+  <h1>🔍 <span>Code Audit</span></h1>
+  <p>Rigorous line-by-line review. Every file checked for FedAvg correctness, data leakage, gradient handling, and reproducibility.</p>
+</header>
+<main>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.8rem;margin:1.5rem 0;">
+  <div class="box" style="text-align:center;padding:1rem;border-color:#ef4444;"><div style="font-size:1.8rem;font-weight:800;color:#ef4444;">2</div><div style="color:var(--m);font-size:.78rem;">Critical</div></div>
+  <div class="box" style="text-align:center;padding:1rem;border-color:#f97316;"><div style="font-size:1.8rem;font-weight:800;color:#f97316;">3</div><div style="color:var(--m);font-size:.78rem;">Major</div></div>
+  <div class="box" style="text-align:center;padding:1rem;border-color:#f59e0b;"><div style="font-size:1.8rem;font-weight:800;color:#f59e0b;">4</div><div style="color:var(--m);font-size:.78rem;">Minor</div></div>
+  <div class="box" style="text-align:center;padding:1rem;border-color:#22c55e;"><div style="font-size:1.8rem;font-weight:800;color:#22c55e;">✓</div><div style="color:var(--m);font-size:.78rem;">FedAvg Math</div></div>
+  <div class="box" style="text-align:center;padding:1rem;border-color:#22c55e;"><div style="font-size:1.8rem;font-weight:800;color:#22c55e;">✓</div><div style="color:var(--m);font-size:.78rem;">No Data Leakage</div></div>
+  <div class="box" style="text-align:center;padding:1rem;border-color:#22c55e;"><div style="font-size:1.8rem;font-weight:800;color:#22c55e;">✓</div><div style="color:var(--m);font-size:.78rem;">Eval Correct</div></div>
+</div>
+
+<h2 style="color:#ef4444;">🔴 Bug 1 — Duplicate Removal Doesn't Fix client_indices</h2>
+<div class="box" style="border-color:#ef4444;">
+<div style="margin-bottom:.8rem;"><span class="badge br">CRITICAL</span><span class="badge bb">partition.py</span><span class="badge bb">Lines 69–83</span><span class="badge bb">non_iid only</span></div>
+<h3>Description</h3>
+<p>When Dirichlet sampling assigns the same index to multiple clients, the fallback deduplication code (lines 69–83) builds a flat <code>unique_items</code> list — but never writes it back into <code>client_indices</code>. Duplicates persist in the returned partitions.</p>
+<h3>Consequences</h3>
+<ul>
+  <li>The same training sample is used by multiple clients in the same round.</li>
+  <li>FedAvg over-weights duplicated samples, biasing the global model.</li>
+  <li>Training loss appears lower than true loss (inflated by repeated samples).</li>
+  <li>Non-reproducible: which clients hold duplicates varies with seed.</li>
+</ul>
+<h3>Buggy Code</h3>
+<pre><code># partition.py lines 69-83 — BUGGY
+flattened = [item for sub in client_indices for item in sub]
+if len(set(flattened)) != len(flattened):
+    seen = set()
+    unique_items = []            # ← computed correctly...
+    for item in flattened:
+        if item not in seen:
+            seen.add(item)
+            unique_items.append(item)
+    # ← ...but unique_items is NEVER used to update client_indices!
+    missing = sorted(set(range(total_samples)) - set(unique_items))
+    client_sizes = [len(items) for items in client_indices]  # still has duplicates
+    while missing:
+        target = int(np.argmin(client_sizes))
+        client_indices[target].append(missing.pop(0))
+        client_sizes[target] += 1
+# Returns client_indices still containing duplicates ↑</code></pre>
+<h3>Fix</h3>
+<pre><code># partition.py — FIXED dedup block
+flattened = [item for sub in client_indices for item in sub]
+if len(set(flattened)) != len(flattened):
+    # Step 1: remove duplicates in-place, keeping first occurrence
+    seen = set()
+    for sub in client_indices:
+        keep = []
+        for item in sub:
+            if item not in seen:
+                seen.add(item)
+                keep.append(item)
+        sub.clear()
+        sub.extend(keep)
+    # Step 2: distribute any indices that were completely lost
+    missing = sorted(set(range(total_samples)) - seen)
+    client_sizes = [len(c) for c in client_indices]
+    for idx in missing:
+        target = int(np.argmin(client_sizes))
+        client_indices[target].append(idx)
+        client_sizes[target] += 1</code></pre>
+<h3>Verification Test</h3>
+<pre><code>from federated_learning.datasets.partition import partition_dataset
+import numpy as np
+
+labels = np.array([0]*10 + [1]*2 + [2]*2)   # very skewed, triggers fallback
+partitions = partition_dataset(labels, num_clients=3,
+                               distribution='non_iid',
+                               dirichlet_alpha=0.01, seed=1)
+all_idx = [i for client in partitions for i in client]
+assert len(all_idx) == len(set(all_idx)), "DUPLICATES FOUND"
+assert len(all_idx) == len(labels), "SAMPLES MISSING"
+print("OK — no duplicates, no missing samples")</code></pre>
+</div>
+
+<h2 style="color:#ef4444;">🔴 Bug 2 — Variable Shadows sklearn.metrics Module</h2>
+<div class="box" style="border-color:#ef4444;">
+<div style="margin-bottom:.8rem;"><span class="badge br">CRITICAL</span><span class="badge bb">evaluation.py</span><span class="badge bb">Line 53</span></div>
+<h3>Description</h3>
+<pre><code># evaluation.py
+from sklearn import metrics          # line 5: metrics = &lt;module sklearn.metrics&gt;
+...
+def evaluate_model(...):
+    ...
+    metrics = compute_metrics(...)   # line 53: metrics = {'accuracy': 0.9, ...}
+    # sklearn.metrics module is now inaccessible for the rest of this scope</code></pre>
+<h3>Consequence</h3>
+<p>Currently harmless because <code>sklearn.metrics</code> is not called after line 53. But any future refactor adding e.g. <code>metrics.confusion_matrix()</code> after line 53 will fail with <code>AttributeError: 'dict' object has no attribute 'confusion_matrix'</code> — a confusing, hard-to-diagnose latent bug.</p>
+<h3>Fix</h3>
+<pre><code># evaluation.py — rename the dict variable
+result = compute_metrics(y_true, y_pred, y_prob)   # was: metrics = ...
+result['validation_loss'] = float(np.mean(losses)) if losses else 0.0
+result['validation_accuracy'] = result['accuracy']
+return result   # also remove the no-op on line 56 (Bug 7)</code></pre>
+</div>
+
+<h2 style="color:#f97316;">🟠 Bug 3 — Missing Normalisation Transform</h2>
+<div class="box" style="border-color:#f97316;">
+<div style="margin-bottom:.8rem;"><span class="badge by">MAJOR</span><span class="badge bb">pathmnist_loader.py</span><span class="badge bb">Lines 17–19</span></div>
+<pre><code># BUGGY
+transform = transforms.Compose([
+    transforms.ToTensor(),   # float32 [0.0, 1.0], mean ≈ 0.74, std ≈ 0.18
+    # Missing: Normalize
+])</code></pre>
+<h3>Consequence</h3>
+<p>Without normalisation, CNN input activations are biased (~0.74 mean) instead of zero-centered. This slows convergence, makes results incomparable to papers that do normalise, and increases sensitivity to learning rate choice.</p>
+<h3>Fix</h3>
+<pre><code># FIXED — pathmnist_loader.py
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.741, 0.533, 0.706],
+        std= [0.175, 0.204, 0.168]
+    )
+])
+# Apply this same transform to train, val, and test splits.
+# Stats were computed from the train set only — no val/test leakage.</code></pre>
+</div>
+
+<h2 style="color:#f97316;">🟠 Bug 4 — Unfair Centralized Baseline Comparison</h2>
+<div class="box" style="border-color:#f97316;">
+<div style="margin-bottom:.8rem;"><span class="badge by">MAJOR</span><span class="badge bb">main.py</span><span class="badge bb">Line 44</span></div>
+<pre><code># BUGGY — main.py line 44
+result = trainer.train(..., epochs=max(1, config.local_epochs))
+# Centralized trains for 2 epochs.
+# Federated trains for 20 rounds × 2 local_epochs = 40 equivalent passes.
+# This always makes FL look better than it truly is.</code></pre>
+<h3>Fix</h3>
+<pre><code># FIXED — main.py line 44
+result = trainer.train(..., epochs=config.rounds * config.local_epochs)
+# Both approaches now see the same total gradient steps.</code></pre>
+</div>
+
+<h2 style="color:#f97316;">🟠 Bug 5 — Smoke Test Uses Full Dataset Labels</h2>
+<div class="box" style="border-color:#f97316;">
+<div style="margin-bottom:.8rem;"><span class="badge by">MAJOR</span><span class="badge bb">main.py</span><span class="badge bb">Lines 76–83</span></div>
+<pre><code># BUGGY — smoke test should limit to 64 samples but doesn't
+subset_indices = list(range(min(64, len(data_bundle['train_dataset']))))
+subset_dataset = data_bundle['train_dataset']          # full ~90k dataset
+train_subset_labels = np.asarray(subset_dataset.labels).reshape(-1).astype(int)
+subset_factory.get_labels = lambda: train_subset_labels  # returns ALL ~90k labels!
+# partition_dataset receives ~90k labels and partitions ALL of them</code></pre>
+<h3>Fix</h3>
+<pre><code># FIXED — proper smoke-test factory
+if config.smoke_test:
+    subset_indices = list(range(min(64, len(data_bundle['train_dataset']))))
+    class SmokeFactory:
+        def get_labels(self):
+            return np.asarray(data_bundle['train_dataset'].labels
+                             )[subset_indices].reshape(-1).astype(int)
+        def create_subset(self, indices, shuffle=False):
+            from torch.utils.data import DataLoader, Subset
+            sub = Subset(data_bundle['train_dataset'], subset_indices)
+            return DataLoader(Subset(sub, indices),
+                              batch_size=config.batch_size, shuffle=shuffle)
+    fed_model, history = run_federated_training(
+        SmokeFactory(), data_bundle['val_loader'], config,
+        output_dir=output_dir, global_model=model
+    )</code></pre>
+</div>
+
+<h2 style="color:#f59e0b;">🟡 Bug 6 — SGD Without Momentum</h2>
+<div class="box" style="border-color:#f59e0b;">
+<div style="margin-bottom:.8rem;"><span class="badge by">MINOR</span><span class="badge bb">client.py</span><span class="badge bb">Line 29</span></div>
+<pre><code># BUGGY — plain SGD, momentum defaults to 0
+optimizer = optimizer_cls(self.model.parameters(), lr=lr)
+
+# FIXED — add momentum (also fix centralized.py line 27)
+optimizer = torch.optim.SGD(self.model.parameters(), lr=lr, momentum=0.9)</code></pre>
+<p>Without momentum, SGD oscillates in high-curvature loss landscapes, requiring ~5–10× more epochs to converge compared to SGD with momentum=0.9.</p>
+</div>
+
+<h2 style="color:#f59e0b;">🟡 Bug 7 — No-Op Self-Assignment</h2>
+<div class="box" style="border-color:#f59e0b;">
+<div style="margin-bottom:.8rem;"><span class="badge by">MINOR</span><span class="badge bb">evaluation.py</span><span class="badge bb">Line 56</span></div>
+<pre><code># BUGGY — line 56 does nothing
+metrics['validation_accuracy'] = metrics['accuracy']  # useful alias ✓
+metrics['macro_f1'] = metrics['macro_f1']              # NO-OP — remove this line</code></pre>
+</div>
+
+<h2 style="color:#f59e0b;">🟡 Bug 8 — Manual Param Copy Instead of load_state_dict</h2>
+<div class="box" style="border-color:#f59e0b;">
+<div style="margin-bottom:.8rem;"><span class="badge by">MINOR</span><span class="badge bb">server.py</span><span class="badge bb">Lines 134–138</span></div>
+<pre><code># BUGGY — verbose, fragile, and skips strict validation
+for name, param in global_model.named_parameters():
+    param.data.copy_(global_state[name])
+for name, buffer in global_model.named_buffers():
+    if name in global_state:
+        buffer.copy_(global_state[name])
+
+# FIXED — one line, handles dtype conversion and strict checking
+global_model.load_state_dict(global_state)</code></pre>
+</div>
+
+<h2 style="color:var(--a);">🔵 Info — Per-Round Client Selection Seeding</h2>
+<div class="box" style="border-color:var(--a);">
+<div style="margin-bottom:.8rem;"><span class="badge bb">INFO</span><span class="badge bb">server.py</span><span class="badge bb">Line 107</span></div>
+<pre><code># server.py line 107
+selected_clients = select_clients(..., seed=config.seed + round_idx)</code></pre>
+<p>Using <code>seed + round_idx</code> ensures each round deterministically selects a different client subset. This is a valid design choice — it prevents the same clients from always being selected, which would bias the global model. Add a comment to document the intent.</p>
+</div>
+
+<h2 style="color:#22c55e;">✅ What Is Correct</h2>
+<div class="box" style="border-color:#22c55e;">
+<ul>
+  <li><strong>FedAvg weighted average</strong>: <code>aggregation.py</code> correctly computes Σ(n_k·w_k)/Σn_k. Verified by unit test. ✓</li>
+  <li><strong>Independent client training</strong>: each client receives <code>copy.deepcopy(global_model)</code> — no shared state between clients per round. ✓</li>
+  <li><strong>State dict deep-copied on return</strong>: <code>client.py:51</code> returns <code>copy.deepcopy(self.model.state_dict())</code>. ✓</li>
+  <li><strong>Centralised validation</strong>: <code>val_loader</code> is never partitioned — evaluation reflects true global performance. ✓</li>
+  <li><strong>No gradient leakage in eval</strong>: <code>evaluate_model()</code> uses <code>torch.no_grad()</code>. ✓</li>
+  <li><strong>CNN dimensions correct</strong>: 28→14→7→3 through MaxPool2d(2)×3. <code>Linear(128×3×3=1152, 128)</code> is correct. ✓</li>
+  <li><strong>CrossEntropyLoss appropriate</strong>: correct for 9-class integer labels. ✓</li>
+  <li><strong>targets.view(-1).long()</strong>: handles MedMNIST's (N,1) int64 label format. ✓</li>
+  <li><strong>IID partition</strong>: verified by <code>test_partition.py:test_iid_partition_no_duplicates_or_loss()</code>. ✓</li>
+  <li><strong>Seed management</strong>: <code>set_seed()</code> seeds NumPy, PyTorch CPU, and CUDA. ✓</li>
+</ul>
+</div>
+</main>
+<footer>Federated Learning Coursework Review &nbsp;·&nbsp; PathMNIST + FedAvg + PyTorch &nbsp;·&nbsp; 2026-10-13</footer></body></html>

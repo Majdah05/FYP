@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Experiments</title><style>
+:root{--a:#3b82f6;--bg:#0f172a;--s:#1e293b;--s2:#334155;--t:#e2e8f0;--m:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.65;}
+a{color:var(--a);text-decoration:none;} a:hover{text-decoration:underline;}
+code{background:#1a2540;border:1px solid #334155;border-radius:4px;padding:.1em .4em;
+     font-family:monospace;font-size:.87em;color:#93c5fd;}
+pre{background:#0a0f1e;border:1px solid #334155;border-radius:10px;padding:1.2rem;
+    overflow-x:auto;font-family:monospace;font-size:.84rem;line-height:1.7;color:#e2e8f0;}
+pre code{background:none;border:none;padding:0;color:inherit;}
+.math{background:#0a0f1e;border-left:3px solid var(--a);border-radius:0 8px 8px 0;
+      padding:.8rem 1.2rem;font-family:monospace;color:#a5f3fc;margin:.8rem 0;font-size:.95rem;}
+nav{background:var(--s);padding:.7rem 2rem;display:flex;gap:1.2rem;flex-wrap:wrap;
+    justify-content:center;border-bottom:1px solid var(--s2);position:sticky;top:0;z-index:100;}
+nav a{color:var(--m);font-size:.88rem;font-weight:500;padding:.25rem .6rem;border-radius:6px;}
+nav a:hover,nav a.active{color:var(--t);background:var(--s2);text-decoration:none;}
+header{background:linear-gradient(135deg,#1e3a5f,#0f172a);padding:3rem 2rem 2.5rem;
+       text-align:center;border-bottom:1px solid #1e3a5f;}
+header h1{font-size:2.2rem;font-weight:800;margin-bottom:.4rem;}
+header h1 span{color:var(--a);}
+header p{color:var(--m);max-width:640px;margin:.6rem auto 0;}
+main{max-width:1060px;margin:0 auto;padding:2.5rem 1.5rem;}
+h2{font-size:1.5rem;font-weight:700;margin:2.2rem 0 .8rem;
+   padding-bottom:.5rem;border-bottom:1px solid var(--s2);}
+h3{font-size:1.05rem;font-weight:700;margin:1.4rem 0 .4rem;color:#93c5fd;}
+p{margin:.5rem 0;}
+ul,ol{padding-left:1.5rem;margin:.5rem 0;} li{margin:.25rem 0;}
+.badge{display:inline-block;padding:.15rem .65rem;border-radius:999px;font-size:.76rem;font-weight:600;margin:.2rem;}
+.bb{background:#1e3a5f;color:#93c5fd;} .bg{background:#14532d;color:#86efac;}
+.by{background:#451a03;color:#fcd34d;} .br{background:#450a0a;color:#fca5a5;}
+.box{background:var(--s);border:1px solid var(--s2);border-radius:14px;padding:1.6rem;margin:1.5rem 0;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.8rem 0;}
+th{text-align:left;padding:.4rem .7rem;color:var(--m);border-bottom:2px solid var(--s2);}
+td{padding:.4rem .7rem;border-bottom:1px solid var(--s2);}
+details summary{cursor:pointer;color:var(--a);margin-top:.5rem;}
+.ans{margin-top:.5rem;background:#14532d;border-radius:6px;padding:.6rem .9rem;}
+footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;
+       border-top:1px solid var(--s2);margin-top:3rem;}
+</style></head><body><nav><a href="index.html">Home</a><a href="coursework.html">Coursework</a><a href="code_audit.html">Code Audit</a><a href="experiments.html" class="active">Experiments</a><a href="exercises.html">Exercises</a></nav>
+<header>
+  <h1>🧪 <span>Experiments</span></h1>
+  <p>8 concrete research experiments ranked by expected insight, with CLI commands and expected outcomes.</p>
+</header>
+<main>
+
+<div class="box" style="border-color:var(--a);">
+  <h3 style="margin-top:0;color:#fcd34d;">⚠️ Apply Bug Fixes First</h3>
+  <p>Run experiments only after applying the three critical/major fixes: add normalisation (<code>pathmnist_loader.py</code>), fix centralized baseline epochs (<code>main.py:44</code>), and fix duplicate removal (<code>partition.py:69–83</code>). Results on buggy code cannot be published or trusted.</p>
+</div>
+
+<h2>Experiment 1 — Centralized vs Federated (IID) ⭐ Most Important</h2>
+<div class="box">
+<h3>Hypothesis</h3>
+<p>With IID data and a fair comparison, FedAvg should achieve 90–98% of centralized accuracy, with a small gap due to communication overhead and aggregation noise.</p>
+<h3>Commands</h3>
+<pre><code># After fixing main.py:44, both use rounds*local_epochs = 40 gradient passes
+python main.py --config configs/pathmnist_iid.yaml --rounds 20 --local_epochs 2</code></pre>
+<table>
+  <thead><tr><th>Configuration</th><th>Expected Val Accuracy</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr><td>Centralized (40 epochs)</td><td>~82–86%</td><td>Upper bound</td></tr>
+    <tr><td>FedAvg IID (5 clients, 20 rounds)</td><td>~78–83%</td><td>FL baseline</td></tr>
+  </tbody>
+</table>
+<p><strong>Key metric:</strong> FL efficiency = FL accuracy / Centralized accuracy (target: &gt; 0.95)</p>
+</div>
+
+<h2>Experiment 2 — IID vs Non-IID: Dirichlet α Sweep</h2>
+<div class="box">
+<h3>Hypothesis</h3>
+<p>Final accuracy decreases monotonically as α decreases. The accuracy gap widens with more local epochs.</p>
+<pre><code>python main.py --distribution iid
+python main.py --distribution non_iid --dirichlet_alpha 10.0
+python main.py --distribution non_iid --dirichlet_alpha 1.0
+python main.py --distribution non_iid --dirichlet_alpha 0.5
+python main.py --distribution non_iid --dirichlet_alpha 0.1</code></pre>
+<table>
+  <thead><tr><th>α</th><th>Distribution</th><th>Expected Accuracy Drop vs IID</th></tr></thead>
+  <tbody>
+    <tr><td>IID</td><td>Uniform</td><td>Baseline</td></tr>
+    <tr><td>10.0</td><td>Near-uniform</td><td>~0–1%</td></tr>
+    <tr><td>1.0</td><td>Moderate skew</td><td>~2–4%</td></tr>
+    <tr><td>0.5</td><td>Significant skew</td><td>~4–8%</td></tr>
+    <tr><td>0.1</td><td>Extreme skew</td><td>~8–15%</td></tr>
+  </tbody>
+</table>
+<p>Also use <code>plot_client_distribution()</code> to visualise the class skew per client for each α.</p>
+</div>
+
+<h2>Experiment 3 — Effect of Number of Clients (K sweep)</h2>
+<div class="box">
+<pre><code>python main.py --num_clients 2  --distribution iid
+python main.py --num_clients 5  --distribution iid
+python main.py --num_clients 10 --distribution iid
+python main.py --num_clients 20 --distribution iid</code></pre>
+<h3>Expected Insight</h3>
+<p>More clients → smaller per-client datasets → noisier local updates → slightly slower convergence, but similar final accuracy under IID. Under non-IID, more clients amplifies heterogeneity. Measure: rounds to reach 75% validation accuracy.</p>
+</div>
+
+<h2>Experiment 4 — Effect of Local Epochs (Client Drift Demo)</h2>
+<div class="box">
+<pre><code># IID — more epochs should help
+python main.py --local_epochs 1 --distribution iid
+python main.py --local_epochs 5 --distribution iid
+
+# Non-IID — more epochs causes drift
+python main.py --local_epochs 1 --distribution non_iid --dirichlet_alpha 0.5
+python main.py --local_epochs 5 --distribution non_iid --dirichlet_alpha 0.5
+python main.py --local_epochs 10 --distribution non_iid --dirichlet_alpha 0.5</code></pre>
+<h3>Expected Insight</h3>
+<p>This directly demonstrates <em>client drift</em> — a core FL research finding. Non-IID accuracy should drop significantly as E increases, while IID accuracy stays stable or improves. This experiment motivates FedProx and SCAFFOLD.</p>
+</div>
+
+<h2>Experiment 5 — Partial Client Participation (C fraction sweep)</h2>
+<div class="box">
+<pre><code>python main.py --client_fraction 1.0 --num_clients 10
+python main.py --client_fraction 0.6 --num_clients 10
+python main.py --client_fraction 0.4 --num_clients 10
+python main.py --client_fraction 0.2 --num_clients 10</code></pre>
+<p>Lower participation increases convergence variance but reduces per-round communication cost. There is typically a sweet spot around C=0.3–0.5 for large client pools.</p>
+</div>
+
+<h2>Experiment 6 — SGD vs Adam Optimiser</h2>
+<div class="box">
+<pre><code>python main.py --optimizer sgd  --lr 0.01
+python main.py --optimizer adam --lr 0.001   # Adam uses lower lr</code></pre>
+<p>Adam often converges faster per round but may show higher variance across rounds in FL. SGD with momentum is the standard choice in FL research. This experiment motivates that convention.</p>
+</div>
+
+<h2>Experiment 7 — Fixed Budget: Rounds × Local Epochs = 40</h2>
+<div class="box">
+<pre><code>python main.py --rounds 40 --local_epochs 1    # 40 rounds, 1 epoch
+python main.py --rounds 20 --local_epochs 2    # 20 rounds, 2 epochs (default)
+python main.py --rounds 10 --local_epochs 4    # 10 rounds, 4 epochs
+python main.py --rounds 5  --local_epochs 8    #  5 rounds, 8 epochs</code></pre>
+<p>Under IID, more rounds + fewer local epochs gives slightly better accuracy at 8× communication cost. Under non-IID, high-E configs diverge. This is the fundamental FedAvg communication trade-off.</p>
+</div>
+
+<h2>Experiment 8 — Implement and Compare FedProx ⭐ Most Publishable</h2>
+<div class="box">
+<h3>Motivation</h3>
+<p>FedProx (Li et al., 2020) adds a proximal term to each client's loss to prevent excessive client drift:</p>
+<div class="math">L_FedProx(w) = L(w) + (μ/2) · ‖w - w_global‖²</div>
+<h3>Implementation (modify client.py)</h3>
+<pre><code># In FederatedClient.local_train(), add global_params argument:
+proximal_term = sum(
+    (w - w_g).norm() ** 2
+    for w, w_g in zip(self.model.parameters(), global_params)
+)
+loss = loss + (mu / 2) * proximal_term</code></pre>
+<h3>Suggested Comparison</h3>
+<p>Compare FedAvg vs FedProx(μ=0.001, 0.01, 0.1) on non-IID PathMNIST with α=0.1 and E=5.
+FedProx should significantly outperform vanilla FedAvg. A clean comparison on PathMNIST is a valid research contribution.</p>
+</div>
+
+</main>
+<footer>Federated Learning Coursework Review &nbsp;·&nbsp; PathMNIST + FedAvg + PyTorch &nbsp;·&nbsp; 2026-10-13</footer></body></html>

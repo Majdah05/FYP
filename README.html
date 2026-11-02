@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Federated Learning Baseline</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; line-height: 1.6; color: #1f2937; }
+    h1, h2, h3 { color: #111827; }
+    code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #111827; color: #f9fafb; padding: 16px; overflow: auto; border-radius: 8px; }
+    table { border-collapse: collapse; width: 100%; margin: 18px 0; }
+    th, td { border: 1px solid #d1d5db; padding: 8px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Federated Learning Baseline with FedAvg</h1>
+  <p>This project implements a reproducible federated learning framework in Python using PyTorch. The baseline focuses on Federated Averaging (FedAvg), centralized training as a comparison point, and a modular dataset interface for future IDS integration.</p>
+
+  <h2>Installation</h2>
+  <pre><code>python -m pip install -r requirements.txt</code></pre>
+
+  <h2>Running a smoke test</h2>
+  <pre><code>python main.py --dataset pathmnist --smoke_test --num_clients 3 --rounds 1 --local_epochs 1 --batch_size 32 --lr 0.01</code></pre>
+
+  <h2>Centralized training</h2>
+  <pre><code>python main.py --dataset pathmnist --num_clients 5 --rounds 5 --local_epochs 2 --batch_size 64 --lr 0.01 --distribution iid --model cnn</code></pre>
+
+  <h2>Federated training</h2>
+  <pre><code>python main.py --dataset pathmnist --num_clients 5 --rounds 20 --local_epochs 2 --batch_size 64 --lr 0.01 --distribution iid</code></pre>
+  <pre><code>python main.py --dataset pathmnist --num_clients 10 --rounds 50 --local_epochs 5 --batch_size 32 --lr 0.001 --distribution non_iid --dirichlet_alpha 0.5</code></pre>
+
+  <h2>FedAvg flow</h2>
+  <p>The server selects participating clients, sends the current global model, clients train locally, and the server aggregates the model updates with sample-size weighting.</p>
+  <p>Aggregation formula:</p>
+  <pre><code>w_{t+1} = sum_{k in S_t} (n_k / sum_{j in S_t} n_j) * w_{t+1}^{k}</code></pre>
+  <p>This implementation is in <code>federated_learning/federated/aggregation.py</code>.</p>
+
+  <h2>IID and non-IID partitioning</h2>
+  <ul>
+    <li><strong>IID</strong>: random shuffling and splitting of the dataset.</li>
+    <li><strong>non-IID</strong>: Dirichlet allocation over label distributions to create heterogeneous client data.</li>
+  </ul>
+
+  <h2>Outputs and plots</h2>
+  <p>Every experiment writes output into a unique folder under <code>results/</code> containing the config, metrics CSV, JSON logs, plot files, and checkpoints.</p>
+
+  <h2>IDS integration</h2>
+  <p>The interface in <code>federated_learning/datasets/ids_loader.py</code> is designed for later use with a real IDS dataset. The dataset schema must be supplied by the user: target column, numeric features, categorical features, and preprocessing strategy. The federated algorithm itself stays separate from IDS-specific preprocessing.</p>
+
+  <h2>Future security mechanisms</h2>
+  <p>This baseline intentionally omits security. The architecture is prepared for secure aggregation, differential privacy, gradient clipping, robust aggregation, and poisoning simulations by isolating aggregation logic and client update handling in dedicated modules.</p>
+
+  <h2>Why the code is modular</h2>
+  <table>
+    <tr><th>Area</th><th>Purpose</th></tr>
+    <tr><td>datasets</td><td>Dataset loading and client partitioning</td></tr>
+    <tr><td>models</td><td>CNN and MLP definitions</td></tr>
+    <tr><td>federated</td><td>Client training, aggregation, and server orchestration</td></tr>
+    <tr><td>training</td><td>Centralized and evaluation logic</td></tr>
+    <tr><td>utils</td><td>JSON logging and plot generation</td></tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 5,
+    "batch_size": 64,
+    "lr": 0.005,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "non_iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cuda",
+    "output_dir": "results/university_gpu_tuning_20_rounds/T04_noniid_lr0005_e5_b64",
+    "save_checkpoints": true,
+    "smoke_test": false,
+    "dataset_path": null,
+    "data": {}
+  },
+  "test_metrics": {
+    "accuracy": 0.8451253481894151,
+    "macro_f1": 0.7972986755298211,
+    "precision": 0.8021522906003061,
+    "recall": 0.802463575987689,
+    "auroc": 0.9722765242750513,
+    "test_loss": 1.100430705378541,
+    "test_accuracy": 0.8451253481894151,
+    "dataset": "pathmnist"
+  }
+}

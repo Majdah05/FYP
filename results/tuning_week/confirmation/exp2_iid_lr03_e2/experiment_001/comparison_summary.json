@@ -1,0 +1,57 @@
+{
+  "centralized_test": {
+    "accuracy": 0.8037604456824513,
+    "macro_f1": 0.7614783967017369,
+    "precision": 0.7775661675401178,
+    "recall": 0.7745984980467729,
+    "auroc": 0.9676597836615252,
+    "validation_loss": 1.1788417169478087,
+    "validation_accuracy": 0.8037604456824513,
+    "dataset": "pathmnist"
+  },
+  "federated_validation": {
+    "accuracy": 0.9314274290283886,
+    "macro_f1": 0.9306543530483443,
+    "precision": 0.9330372067836229,
+    "recall": 0.9292344380189334,
+    "auroc": 0.9961315545610062,
+    "validation_loss": 0.21419838215610024,
+    "validation_accuracy": 0.9314274290283886,
+    "round": 10,
+    "participating_clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_client_ids": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "training_loss": 0.1716716353299347,
+    "per_client_training_loss": [
+      0.166691965403709,
+      0.16771893041432961,
+      0.16944163184982877,
+      0.1765969391872591,
+      0.17790870979454712
+    ],
+    "round_time_seconds": 47.065245389938354,
+    "total_experiment_time_seconds": 470.37958788871765,
+    "communication_volume_bytes": 9679720
+  },
+  "federated_test": {
+    "accuracy": 0.850974930362117,
+    "macro_f1": 0.7997574286240784,
+    "precision": 0.8128917489789812,
+    "recall": 0.8043074142504146,
+    "auroc": 0.9812658287144076,
+    "test_loss": 0.6173904808485402,
+    "test_accuracy": 0.850974930362117,
+    "dataset": "pathmnist"
+  }
+}

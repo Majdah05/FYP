@@ -1,0 +1,17 @@
+dataset: pathmnist
+num_clients: 5
+rounds: 5
+local_epochs: 2
+batch_size: 64
+lr: 0.01
+momentum: 0.9
+optimizer: sgd
+distribution: iid
+client_fraction: 1.0
+dirichlet_alpha: 0.5
+model: cnn
+seed: 42
+device: auto
+output_dir: results
+save_checkpoints: true
+smoke_test: false

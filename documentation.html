@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Federated Learning Framework Documentation</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --ink: #0f172a;
+        --muted: #475569;
+        --line: #dbe3ee;
+        --accent: #1d4ed8;
+        --accent-soft: #dbeafe;
+        --code-bg: #0f172a;
+        --code-fg: #e2e8f0;
+        --good: #166534;
+        --warning: #92400e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.7;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+      h1,
+      h2,
+      h3 {
+        color: var(--ink);
+        margin-top: 28px;
+        margin-bottom: 12px;
+      }
+      h1 {
+        font-size: 2.3rem;
+      }
+      h2 {
+        font-size: 1.6rem;
+        border-bottom: 2px solid var(--line);
+        padding-bottom: 8px;
+      }
+      <p>
+        SGD uses configurable momentum (default <code>0.9</code>); Adam does not
+        use momentum. Each federated client trains for exactly
+        <code>local_epochs</code> passes per selected round. The centralized
+        baseline uses a data-exposure-matched epoch budget based on communication
+        rounds, local epochs, and the fraction of participating clients.
+      </p>
+      h3 {
+        font-size: 1.2rem;
+      }
+      p,
+      li {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+      code,
+      pre {
+        font-family: Consolas, "Courier New", monospace;
+      }
+      code {
+        background: var(--accent-soft);
+        color: var(--ink);
+        padding: 2px 8px;
+        border-radius: 5px;
+        font-size: 0.95em;
+      }
+      counts = rng.multinomial(class_sample_count, proportions)</code></pre>
+      pre {
+        background: var(--code-bg);
+        color: var(--code-fg);
+        padding: 18px 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        margin: 18px 0;
+      }
+      ul,
+      ol {
+        padding-left: 24px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--panel);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 16px;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #eef4ff;
+        color: var(--ink);
+      }
+      .callout {
+        background: #eff6ff;
+        border-left: 5px solid var(--accent);
+        padding: 16px 18px;
+        border-radius: 8px;
+        margin: 18px 0;
+      }
+      .note {
+        background: #fef3c7;
+        border-left: 5px solid #f59e0b;
+        padding: 16px 18px;
+        border-radius: 8px;
+        margin: 18px 0;
+      }
+      .success {
+        color: var(--good);
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Federated Learning Framework Documentation</h1>
+      <p>
+        This project implements a reproducible and modular federated learning
+        baseline in Python using PyTorch. The goal is to provide a clean
+        research-friendly foundation for Federated Averaging (FedAvg),
+        centralized model comparison, and future integration of more advanced
+        security and privacy mechanisms.
+      </p>
+
+      <div class="callout">
+        The current implementation focuses on the baseline: a clean FedAvg
+        simulation, configurable experiments, centralized PathMNIST training,
+        and a dataset-independent interface for future IDS work.
+      </div>
+
+      <h2>1. Project purpose</h2>
+      <p>
+        The project is designed for a university Final Year Project and
+        supports:
+      </p>
+      <ul>
+        <li>Centralized training on PathMNIST as a benchmark baseline</li>
+        <li>Federated training using FedAvg</li>
+        <li>IID and non-IID client partitioning</li>
+        <li>
+          Configurable experiments through command-line arguments and YAML files
+        </li>
+        <li>Evaluation on validation/test metrics</li>
+        <li>
+          A modular structure to later add IDS datasets, secure aggregation,
+          differential privacy, and robustness techniques
+        </li>
+      </ul>
+
+      <h2>2. Why this project is structured this way</h2>
+      <p>
+        The code is separated into independent modules so each component can be
+        understood and extended without rewriting the whole framework. This is
+        important for research because the training algorithm, data
+        partitioning, model architecture, metrics, and logging are all clearly
+        separated.
+      </p>
+
+      <table>
+        <tr>
+          <th>Module</th>
+          <th>Role</th>
+        </tr>
+        <tr>
+          <td><code>main.py</code></td>
+          <td>Main entry point for starting a full experiment</td>
+        </tr>
+        <tr>
+          <td><code>federated_learning/config.py</code></td>
+          <td>Runtime configuration parsing and validation</td>
+        </tr>
+        <tr>
+          <td><code>federated_learning/datasets/</code></td>
+          <td>Loading datasets and partitioning data into simulated clients</td>
+        </tr>
+        <tr>
+          <td><code>federated_learning/models/</code></td>
+          <td>Model definitions such as CNN and MLP</td>
+        </tr>
+        <tr>
+          <td><code>federated_learning/federated/</code></td>
+          <td>Client logic, server logic, and FedAvg aggregation</td>
+        </tr>
+        <tr>
+          <td><code>federated_learning/training/</code></td>
+          <td>Centralized baseline and model evaluation</td>
+        </tr>
+        <tr>
+          <td><code>federated_learning/utils/</code></td>
+          <td>Logging, metrics saving, and plotting functions</td>
+        </tr>
+      </table>
+
+      <h2>3. Configuration system</h2>
+      <p>
+        Important settings are not hardcoded in the training logic. They are
+        accepted at runtime via command-line arguments or YAML configuration
+        files. This makes experiments reproducible and easy to compare.
+      </p>
+
+      <pre><code>python main.py --dataset pathmnist --num_clients 5 --rounds 20 --local_epochs 2 --batch_size 64 --lr 0.01 --distribution iid</code></pre>
+
+      <p>Example YAML configuration:</p>
+      <pre><code>dataset: pathmnist
+num_clients: 5
+rounds: 20
+local_epochs: 2
+batch_size: 64
+lr: 0.01
+optimizer: sgd
+distribution: iid
+client_fraction: 1.0
+seed: 42
+output_dir: results</code></pre>
+
+      <p>
+        The configuration is validated in
+        <code>ExperimentConfig.validate()</code>. Invalid settings such as a
+        non-positive learning rate, unsupported dataset, or invalid optimizer
+        produce clear errors instead of running silently.
+      </p>
+
+      <h2>4. Centralized PathMNIST baseline</h2>
+      <p>
+        The centralized training pipeline acts as a reference model. It trains a
+        CNN on the official PathMNIST training split and evaluates it on a
+        validation and test split. This allows the research project to compare a
+        classical centralized model with a federated model trained across many
+        clients.
+      </p>
+
+      <pre><code>python main.py --dataset pathmnist --num_clients 5 --rounds 5 --local_epochs 2 --batch_size 64 --lr 0.01 --distribution iid --model cnn</code></pre>
+
+      <p>Key behavior:</p>
+      <ul>
+        <li>Downloads PathMNIST using the official MedMNIST package</li>
+        <li>Uses training, validation, and test splits</li>
+        <li>Trains a CNN on 28×28 RGB inputs</li>
+        <li>Reports validation metrics</li>
+        <li>Stores history and final metrics</li>
+      </ul>
+
+      <h2>5. Model definitions</h2>
+      <h3>PathMNIST CNN</h3>
+      <p>
+        The CNN is a lightweight model designed for image classification. It
+        contains a small set of convolutional layers followed by a classifier
+        head. The output dimension is nine classes, consistent with PathMNIST.
+      </p>
+
+      <pre><code>class PathMNISTCNN(nn.Module):
+    def __init__(self, num_classes=9, in_channels=3):
+        ...</code></pre>
+
+      <p>
+        The model is defined in <code>federated_learning/models/cnn.py</code>.
+      </p>
+
+      <h3>Tabular MLP</h3>
+      <p>
+        For future IDS-style tabular learning, the project includes a simple MLP
+        with fully connected layers. This is intended to support non-image
+        datasets where the client data is represented as tabular vectors.
+      </p>
+
+      <pre><code>class TabularMLP(nn.Module):
+    def __init__(self, input_dim, num_classes=2, hidden_dim=64):
+        ...</code></pre>
+
+      <h2>6. Data partitioning</h2>
+      <p>
+        Only the training set is partitioned among clients. Validation and test
+        data remain central and untouched to avoid leakage.
+      </p>
+
+      <h3>IID partitioning</h3>
+      <p>
+        The IID strategy randomly shuffles all training indices and splits them
+        across clients. This creates client datasets with similar class counts
+        and similar sample sizes.
+      </p>
+
+      <h3>Non-IID partitioning</h3>
+      <p>
+        The non-IID strategy uses a Dirichlet distribution to create
+        label-skewed client data. The <code>dirichlet_alpha</code> parameter
+        controls heterogeneity:
+      </p>
+      <ul>
+        <li>Higher alpha → more uniform label distributions</li>
+        <li>Lower alpha → more heterogeneous distributions</li>
+      </ul>
+
+      <pre><code>proportions = rng.dirichlet(np.full(num_clients, dirichlet_alpha))</code></pre>
+
+      <p>
+        Every sample is assigned to exactly one client, and the framework checks
+        that no client is empty when possible.
+      </p>
+
+      <div class="note">
+        The current implementation keeps the partitioning logic separate from
+        the FL training algorithm so it can be reused for both image and tabular
+        datasets later on.
+      </div>
+
+      <h2>7. FedAvg implementation</h2>
+      <p>
+        FedAvg is implemented from first principles. It follows the standard
+        server-client training loop introduced by McMahan et al. in the original
+        FedAvg paper.
+      </p>
+
+      <h3>FedAvg formula</h3>
+      <pre><code>w_{t+1} = sum_{k in S_t} (n_k / sum_{j in S_t} n_j) * w_{t+1}^{k}</code></pre>
+
+      <p>
+        This means that the updated global model is the weighted average of the
+        participating clients’ trained models, where the weight is proportional
+        to each client’s local dataset size.
+      </p>
+
+      <h3>Training flow</h3>
+      <ol>
+        <li>The server selects participating clients</li>
+        <li>The current global model is copied to each selected client</li>
+        <li>Each client trains locally for a number of epochs</li>
+        <li>
+          Clients send updated model parameters and sample counts to the server
+        </li>
+        <li>The server aggregates weights using sample-size weighting</li>
+        <li>The global model is replaced with the aggregated model</li>
+        <li>Validation metrics are computed</li>
+        <li>The round metrics are logged for analysis</li>
+      </ol>
+
+      <p>
+        The aggregation logic is done in
+        <code>federated_learning/federated/aggregation.py</code>, and it
+        correctly handles floating-point tensors while leaving
+        non-floating-point buffers unchanged.
+      </p>
+
+      <pre><code>def fedavg_aggregate(model_states, sample_counts):
+    total_samples = sum(sample_counts)
+    ...
+    weighted = torch.stack([...])
+    return weighted.sum(dim=0) / weights.sum()</code></pre>
+
+      <h2>8. Client and server logic</h2>
+      <p>
+        The project simulates clients on a single machine. This is appropriate
+        for the initial baseline because the goal is to test the learning
+        algorithm, not to build a real distributed deployment yet.
+      </p>
+
+      <h3>Client behavior</h3>
+      <ul>
+        <li>Receives a copy of the global model</li>
+        <li>Trains using local data</li>
+        <li>Returns updated parameters and local sample count</li>
+      </ul>
+
+      <h3>Server behavior</h3>
+      <ul>
+        <li>Chooses subset of clients each round</li>
+        <li>Aggregates client updates</li>
+        <li>Evaluates the updated global model</li>
+        <li>Logs performance and communication statistics</li>
+      </ul>
+
+      <h2>9. Evaluation metrics and logging</h2>
+      <p>Every federated round logs:</p>
+      <ul>
+        <li>communication round</li>
+        <li>selected client IDs</li>
+        <li>training loss</li>
+        <li>validation loss</li>
+        <li>validation accuracy</li>
+        <li>macro F1-score</li>
+        <li>AUROC where available</li>
+        <li>training time per round</li>
+        <li>communication volume estimate</li>
+      </ul>
+
+      <p>
+        These are saved to JSON and CSV files in each experiment folder. This
+        makes it easier to compare runs over time and build research graphs.
+      </p>
+      <p>
+        After federated training is complete, the final global model is
+        evaluated once on the untouched PathMNIST test split. Results are
+        written to
+        <code>federated_test_metrics.json</code> and stored under
+        <code>federated_test</code> in <code>comparison_summary.json</code>.
+        Per-round validation metrics remain separate; use validation metrics for
+        model selection and test metrics for final reporting.
+      </p>
+
+      <h2>10. Output graphs and experiment comparison</h2>
+      <p>The framework produces several useful plots, including:</p>
+      <ul>
+        <li>validation accuracy vs round</li>
+        <li>validation loss vs round</li>
+        <li>macro F1 vs round</li>
+        <li>training time vs round</li>
+        <li>client distribution plots</li>
+        <li>confusion matrix from final evaluation</li>
+        <li>comparison plots across experiments</li>
+      </ul>
+
+      <p>
+        These are created using functions in
+        <code>federated_learning/utils/plotting.py</code>.
+      </p>
+
+      <h2>11. IDS dataset interface</h2>
+      <p>
+        Although the exact IDS dataset is not yet provided, the framework
+        already includes a dataset-independent interface so that later
+        integration does not require rewriting the training algorithm.
+      </p>
+
+      <pre><code>class IDSDataInterface:
+    def __init__(self, dataset_path, target_column, categorical_columns=None, numeric_columns=None):
+        ...</code></pre>
+
+      <p>The interface supports:</p>
+      <ul>
+        <li>numeric and categorical features</li>
+        <li>train-only preprocessing</li>
+        <li>binary or multiclass labels</li>
+        <li>IID and non-IID partitioning</li>
+        <li>future tabular model training</li>
+      </ul>
+
+      <div class="note">
+        The IDS dataset should be integrated only after the dataset schema is
+        known, including the target column, categorical features, and
+        preprocessing rules.
+      </div>
+
+      <h2>12. Reproducibility</h2>
+      <p>
+        Experiments are reproducible through the <code>seed</code> parameter.
+        Each run creates a unique output directory under
+        <code>results/</code> so results remain traceable and comparable.
+      </p>
+
+      <pre><code>python main.py --dataset pathmnist --num_clients 5 --distribution iid --seed 42 --rounds 20</code></pre>
+
+      <p>
+        This is essential for research because identical settings should
+        generate consistent experiment logs and evaluation curves.
+      </p>
+
+      <h2>13. Security architecture preparation</h2>
+      <p>
+        The baseline contains no security mechanism because the project is
+        intentionally focused on a clean, measurable learning baseline first.
+        However, the architecture is designed so that security layers can be
+        added later without rewriting the main training pipeline.
+      </p>
+
+      <ul>
+        <li>
+          <strong>Secure aggregation</strong>: replace the current server
+          aggregation function with cryptographic or secure averaging
+        </li>
+        <li>
+          <strong>Differential privacy</strong>: add noise or clipping in client
+          updates
+        </li>
+        <li>
+          <strong>Gradient clipping</strong>: constrain client gradients during
+          local training
+        </li>
+        <li>
+          <strong>Robust aggregation</strong>: median, trimmed mean, or
+          Krum-style aggregation
+        </li>
+        <li>
+          <strong>Model poisoning experiments</strong>: inject malicious client
+          updates
+        </li>
+        <li>
+          <strong>Communication encryption</strong>: protect client-server
+          transfer of model parameters
+        </li>
+      </ul>
+
+      <h2>14. How to run the framework</h2>
+      <h3>Install dependencies</h3>
+      <pre><code>python -m pip install -r requirements.txt</code></pre>
+
+      <h3>Run a smoke test</h3>
+      <pre><code>python main.py --dataset pathmnist --smoke_test --num_clients 2 --rounds 1 --local_epochs 1 --batch_size 16 --lr 0.01 --distribution iid</code></pre>
+
+      <h3>Run a full experiment</h3>
+      <pre><code>python main.py --dataset pathmnist --num_clients 5 --rounds 20 --local_epochs 2 --batch_size 64 --lr 0.01 --distribution iid</code></pre>
+
+      <h3>Run a non-IID experiment</h3>
+      <pre><code>python main.py --dataset pathmnist --num_clients 10 --rounds 50 --local_epochs 5 --batch_size 32 --lr 0.001 --distribution non_iid --dirichlet_alpha 0.5</code></pre>
+
+      <h2>15. Summary</h2>
+      <p>
+        This project gives you a clean, modular, and reproducible baseline for
+        federated learning using PyTorch. It is intentionally simple, explains
+        the core FedAvg algorithm clearly, and is prepared for future research
+        on security, privacy, IDS integration, and broader experimentation.
+      </p>
+
+      <div class="success">
+        The implementation is ready for PathMNIST baseline experiments and
+        configurable FedAvg simulations, with a future-ready architecture for
+        IDS and security research.
+      </div>
+    </div>
+  </body>
+</html>

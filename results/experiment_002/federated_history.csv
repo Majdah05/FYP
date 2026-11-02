@@ -1,0 +1,2 @@
+accuracy,auroc,communication_volume_bytes,macro_f1,participating_clients,per_client_training_loss,precision,recall,round,round_time_seconds,selected_client_ids,total_experiment_time_seconds,training_loss,validation_accuracy,validation_loss
+0.3000799680127949,0.7776763750986404,3871888,0.23440683187403982,"[0, 1]","[2.048648036928987, 2.0619034336590487]",0.33656789556115413,0.29924083481040076,1,118.48178505897522,"[0, 1]",118.48179125785828,2.0552757352940176,0.3000799680127949,1.6947767972565306

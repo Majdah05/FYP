@@ -1,0 +1,33 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cuda",
+    "output_dir": "results/tuning_week/confirmation/exp1__iid_lr01_e2",
+    "save_checkpoints": false,
+    "smoke_test": false,
+    "dataset_path": null,
+    "data": {}
+  },
+  "test_metrics": {
+    "accuracy": 0.8518105849582173,
+    "macro_f1": 0.8106429177966687,
+    "precision": 0.8159681603078266,
+    "recall": 0.8184100723633004,
+    "auroc": 0.9698174609633088,
+    "test_loss": 0.8415950853872088,
+    "test_accuracy": 0.8518105849582173,
+    "dataset": "pathmnist"
+  }
+}

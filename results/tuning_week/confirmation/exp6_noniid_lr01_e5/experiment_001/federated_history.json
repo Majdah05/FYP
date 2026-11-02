@@ -1,0 +1,375 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 10,
+    "local_epochs": 5,
+    "batch_size": 64,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "non_iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cuda",
+    "output_dir": "results/tuning_week/confirmation/exp6_noniid_lr01_e5",
+    "save_checkpoints": false,
+    "smoke_test": false,
+    "dataset_path": null,
+    "data": {}
+  },
+  "history": [
+    {
+      "accuracy": 0.6010595761695322,
+      "macro_f1": 0.5404458316992701,
+      "precision": 0.5478361899567005,
+      "recall": 0.5781520863427719,
+      "auroc": 0.9410180688288666,
+      "validation_loss": 1.2662633338551612,
+      "validation_accuracy": 0.6010595761695322,
+      "round": 1,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.6524259454932639,
+      "per_client_training_loss": [
+        0.92007286016073,
+        0.7257773317416724,
+        0.4588333418315107,
+        0.45200197492946276,
+        0.7054442188029444
+      ],
+      "round_time_seconds": 116.34320735931396,
+      "total_experiment_time_seconds": 116.34321093559265,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.8275689724110356,
+      "macro_f1": 0.8048059502585806,
+      "precision": 0.8483656110038544,
+      "recall": 0.8147846469531523,
+      "auroc": 0.9860679938774675,
+      "validation_loss": 0.4793833866240872,
+      "validation_accuracy": 0.8275689724110356,
+      "round": 2,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.3278560412412237,
+      "per_client_training_loss": [
+        0.4364256592048645,
+        0.3637149699052389,
+        0.22826624560762535,
+        0.21521809255670418,
+        0.3956552389316854
+      ],
+      "round_time_seconds": 114.14019870758057,
+      "total_experiment_time_seconds": 230.4834759235382,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.8950419832067174,
+      "macro_f1": 0.8892439812623889,
+      "precision": 0.9012568575022364,
+      "recall": 0.8892371305852027,
+      "auroc": 0.9935408677611702,
+      "validation_loss": 0.2964621405502793,
+      "validation_accuracy": 0.8950419832067174,
+      "round": 3,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.20308558536825538,
+      "per_client_training_loss": [
+        0.2739655228317621,
+        0.2313173479548683,
+        0.12768550069088286,
+        0.12389675857118246,
+        0.2585627967925814
+      ],
+      "round_time_seconds": 113.72751045227051,
+      "total_experiment_time_seconds": 344.2110538482666,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.909936025589764,
+      "macro_f1": 0.9082225835460481,
+      "precision": 0.9145246072539108,
+      "recall": 0.9100160466594538,
+      "auroc": 0.9948280563501262,
+      "validation_loss": 0.26421389088129543,
+      "validation_accuracy": 0.909936025589764,
+      "round": 4,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.14505382368907316,
+      "per_client_training_loss": [
+        0.20169903964066765,
+        0.16686958009603048,
+        0.08659628683548759,
+        0.08010911592510953,
+        0.18999509594807054
+      ],
+      "round_time_seconds": 113.08796119689941,
+      "total_experiment_time_seconds": 457.29907751083374,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.9209316273490604,
+      "macro_f1": 0.9195285925162767,
+      "precision": 0.9221920633158235,
+      "recall": 0.9203565034475256,
+      "auroc": 0.9955319801048392,
+      "validation_loss": 0.23898804633860377,
+      "validation_accuracy": 0.9209316273490604,
+      "round": 5,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.1086160401806899,
+      "per_client_training_loss": [
+        0.15543160801538541,
+        0.12144252833009088,
+        0.05773026474827731,
+        0.05980377394549379,
+        0.1486720258642021
+      ],
+      "round_time_seconds": 112.25077271461487,
+      "total_experiment_time_seconds": 569.5499129295349,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.9278288684526189,
+      "macro_f1": 0.9266528445952525,
+      "precision": 0.9282974112550679,
+      "recall": 0.9268925181991041,
+      "auroc": 0.9959312884104862,
+      "validation_loss": 0.22427820528198958,
+      "validation_accuracy": 0.9278288684526189,
+      "round": 6,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.08650095538037246,
+      "per_client_training_loss": [
+        0.1309277649465503,
+        0.10002946797130766,
+        0.03988208940125134,
+        0.042710420851180306,
+        0.11895503373157267
+      ],
+      "round_time_seconds": 112.30360317230225,
+      "total_experiment_time_seconds": 681.8535749912262,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.9321271491403439,
+      "macro_f1": 0.9311874024065907,
+      "precision": 0.9333561136105869,
+      "recall": 0.9305718619689023,
+      "auroc": 0.996312942739748,
+      "validation_loss": 0.22722390038999402,
+      "validation_accuracy": 0.9321271491403439,
+      "round": 7,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.06857417432331228,
+      "per_client_training_loss": [
+        0.11749683744112935,
+        0.07272722314644073,
+        0.031175481171056164,
+        0.03259361885267902,
+        0.08887771100525615
+      ],
+      "round_time_seconds": 112.26770257949829,
+      "total_experiment_time_seconds": 794.1213457584381,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.9339264294282287,
+      "macro_f1": 0.9325825481918653,
+      "precision": 0.9343960843011574,
+      "recall": 0.9324995360105997,
+      "auroc": 0.9965082376525274,
+      "validation_loss": 0.2340377195008621,
+      "validation_accuracy": 0.9339264294282287,
+      "round": 8,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.05659794015855664,
+      "per_client_training_loss": [
+        0.09709630466584701,
+        0.054095509539564164,
+        0.025404389561132782,
+        0.028684591868976976,
+        0.07770890515726224
+      ],
+      "round_time_seconds": 113.08399534225464,
+      "total_experiment_time_seconds": 907.2054030895233,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.9316273490603758,
+      "macro_f1": 0.9299787505685168,
+      "precision": 0.9323981675157555,
+      "recall": 0.9296547655311694,
+      "auroc": 0.9962950086663432,
+      "validation_loss": 0.25795862996938884,
+      "validation_accuracy": 0.9316273490603758,
+      "round": 9,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.04555537235407423,
+      "per_client_training_loss": [
+        0.08504347828312171,
+        0.042171750226148434,
+        0.019752831316816315,
+        0.021233552161831704,
+        0.05957524978245298
+      ],
+      "round_time_seconds": 112.79916286468506,
+      "total_experiment_time_seconds": 1020.0046372413635,
+      "communication_volume_bytes": 9679720
+    },
+    {
+      "accuracy": 0.9378248700519792,
+      "macro_f1": 0.9370938932125211,
+      "precision": 0.9373692863009507,
+      "recall": 0.9372929166993512,
+      "auroc": 0.9966158183567069,
+      "validation_loss": 0.2365847298294116,
+      "validation_accuracy": 0.9378248700519792,
+      "round": 10,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.03899413846121505,
+      "per_client_training_loss": [
+        0.07267418624228077,
+        0.03380555209770894,
+        0.017130046481402875,
+        0.021126832564536017,
+        0.05023407492014664
+      ],
+      "round_time_seconds": 112.53400301933289,
+      "total_experiment_time_seconds": 1132.538711309433,
+      "communication_volume_bytes": 9679720
+    }
+  ]
+}
