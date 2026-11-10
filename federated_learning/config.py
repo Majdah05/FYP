@@ -28,6 +28,12 @@ class ExperimentConfig:
     save_checkpoints: bool = True
     smoke_test: bool = False
     dataset_path: str | None = None
+    aggregation: str = 'plaintext'
+    he_backend: str = 'tenseal_seal'
+    ckks_poly_modulus_degree: int = 8192
+    ckks_coeff_mod_bit_sizes: list[int] = field(default_factory=lambda: [60, 40, 40, 60])
+    ckks_global_scale_power: int = 40
+    ckks_chunk_size: int | None = None
     data: dict[str, Any] = field(default_factory=dict)
 
     def validate(self) -> None:
@@ -58,6 +64,14 @@ class ExperimentConfig:
             raise ValueError("model must be 'cnn' or 'mlp'.")
         if self.device not in {'cpu', 'cuda', 'auto'}:
             raise ValueError("device must be 'cpu', 'cuda', or 'auto'.")
+        if not isinstance(self.aggregation, str) or self.aggregation not in {'plaintext', 'ckks'}:
+            raise ValueError("aggregation must be 'plaintext' or 'ckks'.")
+        if self.he_backend != 'tenseal_seal':
+            raise ValueError("he_backend must be 'tenseal_seal'.")
+        # Structural checks need no optional library; SEAL validates TC128 at initialization.
+        from federated_learning.encryption.ckks_context import validate_parameters
+        validate_parameters(self.ckks_poly_modulus_degree, self.ckks_coeff_mod_bit_sizes,
+                            self.ckks_global_scale_power, self.ckks_chunk_size)
 
 
 def load_yaml_config(path: str | Path) -> dict[str, Any]:
@@ -65,7 +79,12 @@ def load_yaml_config(path: str | Path) -> dict[str, Any]:
     if not config_path.exists():
         raise FileNotFoundError(f'YAML config not found: {config_path}')
     with config_path.open('r', encoding='utf-8') as fh:
-        return yaml.safe_load(fh) or {}
+        value = yaml.safe_load(fh)
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise ValueError('YAML experiment configuration must be a mapping.')
+    return value
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -89,6 +108,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument('--smoke_test', action='store_true')
     parser.add_argument('--config', type=str, default=None, help='Optional YAML config file to load before CLI overrides.')
     parser.add_argument('--dataset_path', type=str, default=None, help='Optional dataset path for custom IDS datasets.')
+    parser.add_argument('--aggregation', choices=['plaintext', 'ckks'])
+    parser.add_argument('--he_backend', choices=['tenseal_seal'])
+    parser.add_argument('--ckks_poly_modulus_degree', type=int)
+    parser.add_argument('--ckks_coeff_mod_bit_sizes', type=int, nargs='+', help='Space-separated modulus bit sizes.')
+    parser.add_argument('--ckks_global_scale_power', type=int)
+    parser.add_argument('--ckks_chunk_size', type=int)
+    parser.add_argument('--no-save_checkpoints', dest='save_checkpoints', action='store_false')
+    parser.add_argument('--no-smoke_test', dest='smoke_test', action='store_false')
+    # Only explicitly supplied CLI values override YAML/dataclass defaults.
+    for action in parser._actions:
+        if action.dest != 'help':
+            action.default = argparse.SUPPRESS
     return parser
 
 
@@ -97,6 +128,9 @@ def merge_config(cli_args: argparse.Namespace, yaml_data: dict[str, Any] | None 
     merged = {**base, **vars(cli_args)}
     if 'config' in merged:
         merged.pop('config', None)
+    unknown = set(merged) - set(ExperimentConfig.__dataclass_fields__)
+    if unknown:
+        raise ValueError(f'Unknown experiment configuration keys: {sorted(unknown)}')
     cfg = ExperimentConfig(**merged)
     cfg.validate()
     return cfg
@@ -105,5 +139,5 @@ def merge_config(cli_args: argparse.Namespace, yaml_data: dict[str, Any] | None 
 def parse_config(argv: list[str] | None = None) -> ExperimentConfig:
     parser = build_parser()
     args = parser.parse_args(argv)
-    yaml_data = load_yaml_config(args.config) if args.config else {}
+    yaml_data = load_yaml_config(args.config) if getattr(args, 'config', None) else {}
     return merge_config(args, yaml_data)

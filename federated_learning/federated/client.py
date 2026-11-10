@@ -23,7 +23,8 @@ class FederatedClient:
     def load_global_model(self, state_dict):
         self.model.load_state_dict(copy.deepcopy(state_dict))
 
-    def local_train(self, epochs: int, lr: float, optimizer_name: str | None = None):
+    def local_train(self, epochs: int, lr: float, optimizer_name: str | None = None,
+                    update_encoder=None, round_id: int = 0):
         if self.train_loader is None:
             raise ValueError(f'Client {self.client_id} has no training data.')
 
@@ -36,7 +37,7 @@ class FederatedClient:
             raise ValueError(f"Unsupported optimizer '{selected_optimizer}'. Choose 'sgd' or 'adam'.")
         self.model.train()
         losses = []
-        start_time = time.time()
+        start_time = time.perf_counter()
 
         for _ in range(epochs):
             for inputs, targets in self.train_loader:
@@ -49,13 +50,21 @@ class FederatedClient:
                 optimizer.step()
                 losses.append(float(loss.item()))
 
-        return {
+        result = {
             'client_id': self.client_id,
             'losses': losses,
-            'train_time_seconds': time.time() - start_time,
+            'train_time_seconds': time.perf_counter() - start_time,
             'state_dict': copy.deepcopy(self.model.state_dict()),
             'num_samples': len(self.train_loader.dataset),
         }
+        if update_encoder is not None:
+            # Packaging occurs inside the client role. The coordinator receives
+            # ciphertext bytes and public metadata, never this plaintext state.
+            state = result.pop('state_dict')
+            result['encrypted_update'], result['he_metrics'] = update_encoder.prepare(
+                state, result['num_samples'], self.client_id, round_id,
+            )
+        return result
 
 
 def local_train(model: nn.Module, train_loader, epochs: int, lr: float, device: str = 'cpu', optimizer_name: str = 'sgd', momentum: float = 0.9):
