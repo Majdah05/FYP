@@ -1,0 +1,4 @@
+﻿Python: C:\Users\mga56\Downloads\FYP\.venv\Scripts\python.exe
+PyTorch: 2.15.0+cpu | TenSEAL: 0.3.18
+Training device: CPU
+CKKS device: CPU; all 6 configurations and SEAL TC128 parameters passed.

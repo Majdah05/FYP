@@ -14,9 +14,14 @@ Normalize arithmetic (verified bit-exact at start-up), to avoid per-image PIL
 overhead on CPU. Partitioning, client loaders (shuffle=False as in the repo),
 model, optimiser and evaluation are the repository's code.
 """
-import argparse, copy, json, resource, sys, time
-from pathlib import Path
 
+import argparse, copy, json, sys, time
+import psutil
+try:
+    import resource
+except ModuleNotFoundError:
+    resource = None
+from pathlib import Path
 
 def main():
     ap = argparse.ArgumentParser()
@@ -162,7 +167,11 @@ def main():
     test_metrics = evaluate_federated_test(model, test_loader, cfg, out)
     save_json({'config': cfg.__dict__, 'history': history, 'test_metrics': test_metrics,
                'federated_wall_seconds': fl_wall, 'federated_cpu_seconds': fl_cpu,
-               'peak_rss_mb': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024,
+               'peak_rss_mb': (
+                psutil.Process().memory_info().peak_wset / (1024 ** 2)
+                if sys.platform == "win32"
+                else resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/ (1024 ** 2 if sys.platform == "darwin" else 1024)
+),
                'torch_threads': torch.get_num_threads(), 'device': device,
                'gpu': torch.cuda.get_device_name(0) if device == 'cuda' else None},
               out / 'federated_history.json')

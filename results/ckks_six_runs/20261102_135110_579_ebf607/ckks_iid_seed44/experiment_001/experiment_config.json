@@ -1,0 +1,67 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 3,
+    "rounds": 20,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 44,
+    "device": "auto",
+    "output_dir": "C:\\Users\\mga56\\Downloads\\FYP\\results\\ckks_six_runs\\20261102_135110_579_ebf607\\ckks_iid_seed44",
+    "save_checkpoints": true,
+    "smoke_test": false,
+    "dataset_path": null,
+    "aggregation": "ckks",
+    "he_backend": "tenseal_seal",
+    "ckks_poly_modulus_degree": 8192,
+    "ckks_coeff_mod_bit_sizes": [
+      60,
+      40,
+      40,
+      60
+    ],
+    "ckks_global_scale_power": 40,
+    "ckks_chunk_size": 4096,
+    "data": {}
+  },
+  "aggregation": {
+    "he_backend": "tenseal_seal",
+    "api": "tenseal.sealapi",
+    "poly_modulus_degree": 8192,
+    "coeff_mod_bit_sizes": [
+      60,
+      40,
+      40,
+      60
+    ],
+    "global_scale_power": 40,
+    "chunk_size": 4096,
+    "packing_capacity": 4096,
+    "security_validation": "SEAL SEC_LEVEL_TYPE.TC128",
+    "he_public_context_bytes": 464848,
+    "he_initialization_time_seconds": 0.21079109981656075,
+    "package_versions": {
+      "tenseal": "0.3.18",
+      "torch": "2.15.0",
+      "numpy": "2.5.4",
+      "medmnist": "3.0.2"
+    },
+    "python": "3.13.2",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "seal_runtime_version": "not exposed by the installed TenSEAL Python binding",
+    "seal_build_reference": "TenSEAL v0.3.18 cmake/seal.cmake pins Microsoft SEAL v4.3.3",
+    "traffic_basis": "simulated serialized SEAL payload traffic; no network transport",
+    "serialization": "SEAL path-based save/load; temporary public/ciphertext I/O included",
+    "relinearization_keys_generated": false,
+    "galois_keys_generated": false,
+    "aggregation": "ckks"
+  },
+  "federated_execution_time_seconds": 594.7244432000443
+}

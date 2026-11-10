@@ -1,0 +1,38 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 5,
+    "batch_size": 128,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cpu",
+    "output_dir": "C:\\Users\\mga56\\Downloads\\FYP\\experiments\\ckks_vs_plaintext\\results\\runs\\iid_plaintext",
+    "save_checkpoints": false,
+    "smoke_test": false,
+    "dataset_path": null,
+    "aggregation": "plaintext",
+    "he_backend": "tenseal_seal",
+    "ckks_poly_modulus_degree": 8192,
+    "ckks_coeff_mod_bit_sizes": [
+      60,
+      40,
+      40,
+      60
+    ],
+    "ckks_global_scale_power": 40,
+    "ckks_chunk_size": null,
+    "data": {}
+  },
+  "aggregation": {
+    "aggregation": "plaintext"
+  },
+  "federated_execution_time_seconds": 1608.9723119000046
+}

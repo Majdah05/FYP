@@ -1,0 +1,66 @@
+{
+  "centralized_test": {
+    "accuracy": 0.8227019498607242,
+    "macro_f1": 0.7569340009381653,
+    "precision": 0.7643387519663288,
+    "recall": 0.7562055209024136,
+    "auroc": 0.9401232578718515,
+    "validation_loss": 1.760197528782818,
+    "validation_accuracy": 0.8227019498607242,
+    "dataset": "pathmnist"
+  },
+  "federated_validation": {
+    "accuracy": 0.9431227508996401,
+    "macro_f1": 0.9427040274661778,
+    "precision": 0.9434264798823436,
+    "recall": 0.9424411333444923,
+    "auroc": 0.9972381802365606,
+    "validation_loss": 0.1859358815512004,
+    "validation_accuracy": 0.9431227508996401,
+    "round": 20,
+    "participating_clients": [
+      0,
+      1,
+      2
+    ],
+    "selected_client_ids": [
+      0,
+      1,
+      2
+    ],
+    "training_loss": 0.10023508210274786,
+    "per_client_training_loss": [
+      0.10512870440218867,
+      0.09417115502282361,
+      0.1014053868832313
+    ],
+    "he_packaging_time_seconds": 0.00649760034866631,
+    "he_encryption_time_seconds": 0.6381481022108346,
+    "he_aggregation_time_seconds": 0.0026191002689301968,
+    "he_decryption_time_seconds": 0.04787330096587539,
+    "he_serialization_time_seconds": 1.1158220977522433,
+    "he_total_time_seconds": 1.8109602015465498,
+    "he_ciphertext_upload_bytes": 59648783,
+    "he_aggregate_ciphertext_bytes": 19880519,
+    "he_ciphertext_count": 180,
+    "he_aggregate_ciphertext_count": 60,
+    "he_public_context_bytes": 464848,
+    "he_traffic_basis": "simulated serialized SEAL payload traffic; no network transport",
+    "aggregation": "ckks",
+    "round_time_seconds": 28.66909320000559,
+    "total_experiment_time_seconds": 594.722238499904,
+    "communication_volume_bytes": 5807832,
+    "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+    "plaintext_float_upload_bytes_estimate": 2903916
+  },
+  "federated_test": {
+    "accuracy": 0.8437325905292479,
+    "macro_f1": 0.7840116069137602,
+    "precision": 0.7970409229029561,
+    "recall": 0.7844840362161963,
+    "auroc": 0.9691344360242733,
+    "test_loss": 0.8800656516932779,
+    "test_accuracy": 0.8437325905292479,
+    "dataset": "pathmnist"
+  }
+}

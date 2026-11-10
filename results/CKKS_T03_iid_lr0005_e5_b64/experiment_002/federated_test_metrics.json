@@ -1,0 +1,44 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 5,
+    "batch_size": 64,
+    "lr": 0.005,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cuda",
+    "output_dir": "results/CKKS_T03_iid_lr0005_e5_b64",
+    "save_checkpoints": true,
+    "smoke_test": false,
+    "dataset_path": null,
+    "aggregation": "ckks",
+    "he_backend": "tenseal_seal",
+    "ckks_poly_modulus_degree": 8192,
+    "ckks_coeff_mod_bit_sizes": [
+      60,
+      40,
+      40,
+      60
+    ],
+    "ckks_global_scale_power": 40,
+    "ckks_chunk_size": 4096,
+    "data": {}
+  },
+  "test_metrics": {
+    "accuracy": 0.8764623955431755,
+    "macro_f1": 0.8397449584089115,
+    "precision": 0.8436228598171086,
+    "recall": 0.8436885058905041,
+    "auroc": 0.9775820861872988,
+    "test_loss": 1.034775702694876,
+    "test_accuracy": 0.8764623955431755,
+    "dataset": "pathmnist"
+  }
+}

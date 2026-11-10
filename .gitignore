@@ -9,3 +9,4 @@ __pycache__/
 .runtime-tmp/
 .test-*/
 results/ckks_validation/
+results/**/*.zip
