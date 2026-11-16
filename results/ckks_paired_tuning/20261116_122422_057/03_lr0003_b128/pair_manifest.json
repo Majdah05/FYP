@@ -1,0 +1,36 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 5,
+    "batch_size": 128,
+    "lr": 0.003,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "non_iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cuda",
+    "output_dir": "results",
+    "save_checkpoints": true,
+    "smoke_test": false,
+    "dataset_path": null,
+    "aggregation": "ckks",
+    "he_backend": "tenseal_seal",
+    "ckks_poly_modulus_degree": 8192,
+    "ckks_coeff_mod_bit_sizes": [
+      60,
+      40,
+      40,
+      60
+    ],
+    "ckks_global_scale_power": 40,
+    "ckks_chunk_size": 4096,
+    "data": {}
+  },
+  "partition_sha256": "965965af5e7408025b6caa8194bf292399b6f59782b98cd410dd0401ffbc6e56",
+  "same_seed_partition_and_client_schedule": true
+}

@@ -1,0 +1,807 @@
+{
+  "config": {
+    "dataset": "pathmnist",
+    "num_clients": 5,
+    "rounds": 20,
+    "local_epochs": 5,
+    "batch_size": 128,
+    "lr": 0.005,
+    "momentum": 0.9,
+    "optimizer": "sgd",
+    "distribution": "non_iid",
+    "dirichlet_alpha": 0.5,
+    "client_fraction": 1.0,
+    "model": "cnn",
+    "seed": 42,
+    "device": "cuda",
+    "output_dir": "results",
+    "save_checkpoints": true,
+    "smoke_test": false,
+    "dataset_path": null,
+    "aggregation": "plaintext",
+    "he_backend": "tenseal_seal",
+    "ckks_poly_modulus_degree": 8192,
+    "ckks_coeff_mod_bit_sizes": [
+      60,
+      40,
+      40,
+      60
+    ],
+    "ckks_global_scale_power": 40,
+    "ckks_chunk_size": 4096,
+    "data": {}
+  },
+  "partition_sha256": "965965af5e7408025b6caa8194bf292399b6f59782b98cd410dd0401ffbc6e56",
+  "history": [
+    {
+      "accuracy": 0.5309876049580168,
+      "macro_f1": 0.470628035171597,
+      "precision": 0.4981410261767544,
+      "recall": 0.5063282815564087,
+      "auroc": 0.9187565716634839,
+      "validation_loss": 1.2551964445959163,
+      "validation_accuracy": 0.5309876049580168,
+      "round": 1,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.8943619215567693,
+      "per_client_training_loss": [
+        1.1625586003462474,
+        1.0649397459081424,
+        0.6541097268894098,
+        0.6582646046427713,
+        0.9319369299972758
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 66.63268179999432,
+      "total_experiment_time_seconds": 66.64785189996473,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.6778288684526189,
+      "macro_f1": 0.6244152704458216,
+      "precision": 0.7014203959557619,
+      "recall": 0.6557053682067191,
+      "auroc": 0.9581637989830948,
+      "validation_loss": 0.8482159134707873,
+      "validation_accuracy": 0.6778288684526189,
+      "round": 2,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.5504103386243474,
+      "per_client_training_loss": [
+        0.7425105834404627,
+        0.6642003555772125,
+        0.37127283647440484,
+        0.3760372984992421,
+        0.5980306191304151
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.87955010001315,
+      "total_experiment_time_seconds": 141.53173779998906,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.7886845261895242,
+      "macro_f1": 0.7647386749011251,
+      "precision": 0.8072197475689784,
+      "recall": 0.774891473694967,
+      "auroc": 0.9775816285066526,
+      "validation_loss": 0.5827002046228964,
+      "validation_accuracy": 0.7886845261895242,
+      "round": 3,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.4020516112412996,
+      "per_client_training_loss": [
+        0.5363278957704704,
+        0.4889036044798872,
+        0.2610255380471547,
+        0.26251533509542546,
+        0.4614856828135603
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 73.99732159997802,
+      "total_experiment_time_seconds": 215.53410769999027,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.8343662534986006,
+      "macro_f1": 0.8220481881516403,
+      "precision": 0.8464032931154192,
+      "recall": 0.8247959095289905,
+      "auroc": 0.985738289979494,
+      "validation_loss": 0.4491622410243071,
+      "validation_accuracy": 0.8343662534986006,
+      "round": 4,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.31856739980334325,
+      "per_client_training_loss": [
+        0.4297518013094862,
+        0.3887351708706989,
+        0.19909262451464715,
+        0.19404837997171326,
+        0.381209022350171
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.97995329997502,
+      "total_experiment_time_seconds": 290.5176636999822,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.8636545381847262,
+      "macro_f1": 0.8577772487852384,
+      "precision": 0.8715541758661605,
+      "recall": 0.8593773408507657,
+      "auroc": 0.9897421845676647,
+      "validation_loss": 0.37242918923685825,
+      "validation_accuracy": 0.8636545381847262,
+      "round": 5,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.2627025115242577,
+      "per_client_training_loss": [
+        0.3539517442608873,
+        0.3250735714711169,
+        0.15951513918521612,
+        0.15153971274612824,
+        0.3234323899579399
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 73.62770329997875,
+      "total_experiment_time_seconds": 364.1482348999707,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.8792483006797281,
+      "macro_f1": 0.8756274444571728,
+      "precision": 0.8870484126262279,
+      "recall": 0.8764613191713341,
+      "auroc": 0.992222133339333,
+      "validation_loss": 0.3225436016351362,
+      "validation_accuracy": 0.8792483006797281,
+      "round": 6,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.22291606930984367,
+      "per_client_training_loss": [
+        0.3027738270784418,
+        0.276909231578791,
+        0.13177914509306785,
+        0.12484976847156666,
+        0.2782683743273511
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.83676680002827,
+      "total_experiment_time_seconds": 438.9884646999999,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.8910435825669732,
+      "macro_f1": 0.888851204459297,
+      "precision": 0.898692830268313,
+      "recall": 0.8895408109249706,
+      "auroc": 0.9935075527939213,
+      "validation_loss": 0.29232815341858925,
+      "validation_accuracy": 0.8910435825669732,
+      "round": 7,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.19304634837994458,
+      "per_client_training_loss": [
+        0.2678064342327416,
+        0.23468080729406368,
+        0.11157898246378138,
+        0.10722580110195322,
+        0.2439397168071831
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.86281769996276,
+      "total_experiment_time_seconds": 514.8547232999699,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.8997401039584166,
+      "macro_f1": 0.897486600602514,
+      "precision": 0.9068921951310173,
+      "recall": 0.898184231272693,
+      "auroc": 0.9944822779884012,
+      "validation_loss": 0.27193609068665325,
+      "validation_accuracy": 0.8997401039584166,
+      "round": 8,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.17169711674905547,
+      "per_client_training_loss": [
+        0.23583760603144766,
+        0.2097642486534452,
+        0.09413143989454577,
+        0.09923566792065791,
+        0.21951662124518087
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.45920949999709,
+      "total_experiment_time_seconds": 589.3173632000107,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9130347860855658,
+      "macro_f1": 0.9114838862714999,
+      "precision": 0.9169513755069981,
+      "recall": 0.9122017462316809,
+      "auroc": 0.9953884617233094,
+      "validation_loss": 0.24333019724375085,
+      "validation_accuracy": 0.9130347860855658,
+      "round": 9,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.1578323628348743,
+      "per_client_training_loss": [
+        0.22705815599734586,
+        0.18906130986188047,
+        0.08376026151944761,
+        0.08801131045945204,
+        0.20127077633624568
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.73658739996608,
+      "total_experiment_time_seconds": 665.0570162999793,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9213314674130347,
+      "macro_f1": 0.920512729223971,
+      "precision": 0.9233672049587679,
+      "recall": 0.9215779539106366,
+      "auroc": 0.9958567183524711,
+      "validation_loss": 0.22537157335613348,
+      "validation_accuracy": 0.9213314674130347,
+      "round": 10,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.14000474910859728,
+      "per_client_training_loss": [
+        0.1991827742777144,
+        0.17104996511292073,
+        0.0722308642581861,
+        0.07496664094691421,
+        0.18259350094725105
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.46279429999413,
+      "total_experiment_time_seconds": 740.5231330000097,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9226309476209517,
+      "macro_f1": 0.9214250754349061,
+      "precision": 0.9255869799798231,
+      "recall": 0.9222585132796516,
+      "auroc": 0.9960761868209137,
+      "validation_loss": 0.22406784492202952,
+      "validation_accuracy": 0.9226309476209517,
+      "round": 11,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.12728383241667238,
+      "per_client_training_loss": [
+        0.18384019978375485,
+        0.15959982577591172,
+        0.06357898680169298,
+        0.06948319837025813,
+        0.15991695135174427
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.34588709997479,
+      "total_experiment_time_seconds": 814.8726051999838,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9274290283886445,
+      "macro_f1": 0.9256661841680095,
+      "precision": 0.92943618612511,
+      "recall": 0.9255628243238644,
+      "auroc": 0.9965077068206776,
+      "validation_loss": 0.20982827321638034,
+      "validation_accuracy": 0.9274290283886445,
+      "round": 12,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.11395707595575129,
+      "per_client_training_loss": [
+        0.1666566427856063,
+        0.13997758495150714,
+        0.056673508836631324,
+        0.05946846430972758,
+        0.14700917889528414
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.61270950001199,
+      "total_experiment_time_seconds": 890.4885251999949,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9336265493802479,
+      "macro_f1": 0.9326625652045892,
+      "precision": 0.9347044218091126,
+      "recall": 0.9331719206186389,
+      "auroc": 0.9968123820681717,
+      "validation_loss": 0.195101366484467,
+      "validation_accuracy": 0.9336265493802479,
+      "round": 13,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.10085168090572197,
+      "per_client_training_loss": [
+        0.1494301928090863,
+        0.12083337410122796,
+        0.049112333433594606,
+        0.054206950692594916,
+        0.13067555349210605
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.23290589998942,
+      "total_experiment_time_seconds": 964.724473099981,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9367253098760496,
+      "macro_f1": 0.9355670248958808,
+      "precision": 0.9382586962551329,
+      "recall": 0.9347203064260712,
+      "auroc": 0.9970101564134042,
+      "validation_loss": 0.18762666741503944,
+      "validation_accuracy": 0.9367253098760496,
+      "round": 14,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.09035554729221322,
+      "per_client_training_loss": [
+        0.13619401815882884,
+        0.10526896201034067,
+        0.04411953708352656,
+        0.0488289687102593,
+        0.11736625049811075
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.06393820000812,
+      "total_experiment_time_seconds": 1039.7917009000084,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9355257896841264,
+      "macro_f1": 0.9342748155227846,
+      "precision": 0.9375151704799529,
+      "recall": 0.933229130456295,
+      "auroc": 0.9970247678826536,
+      "validation_loss": 0.19076928694414186,
+      "validation_accuracy": 0.9355257896841264,
+      "round": 15,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.08195816073548527,
+      "per_client_training_loss": [
+        0.12456790731148794,
+        0.09065658116052228,
+        0.039105732293556565,
+        0.04366731629816586,
+        0.11179326661369379
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.37455039995257,
+      "total_experiment_time_seconds": 1115.169539399969,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9395241903238705,
+      "macro_f1": 0.938342006778334,
+      "precision": 0.9409923001515836,
+      "recall": 0.9375534111517523,
+      "auroc": 0.9971044304665762,
+      "validation_loss": 0.18934887525024294,
+      "validation_accuracy": 0.9395241903238705,
+      "round": 16,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.07459972254596385,
+      "per_client_training_loss": [
+        0.11496412305091508,
+        0.07921854752085862,
+        0.03540796958672666,
+        0.03889506112908998,
+        0.10451291144222898
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 73.8427789999987,
+      "total_experiment_time_seconds": 1189.0153645999962,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9341263494602159,
+      "macro_f1": 0.9330691783880888,
+      "precision": 0.9368570425194371,
+      "recall": 0.9318252771301877,
+      "auroc": 0.9968993077048657,
+      "validation_loss": 0.2036332801173005,
+      "validation_accuracy": 0.9341263494602159,
+      "round": 17,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.06776116485680098,
+      "per_client_training_loss": [
+        0.10482752167526632,
+        0.07112165591579371,
+        0.03247855023001793,
+        0.033829402206343284,
+        0.09654869425658356
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.5919137999881,
+      "total_experiment_time_seconds": 1264.6106732999906,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9348260695721712,
+      "macro_f1": 0.9329586687863031,
+      "precision": 0.9377968178880914,
+      "recall": 0.9314697870273816,
+      "auroc": 0.9970347815550729,
+      "validation_loss": 0.20607114111698127,
+      "validation_accuracy": 0.9348260695721712,
+      "round": 18,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.06314055086204048,
+      "per_client_training_loss": [
+        0.10015691787555503,
+        0.0652964860521337,
+        0.028905693597187275,
+        0.03202721694909522,
+        0.08931643983623122
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.0498619999853,
+      "total_experiment_time_seconds": 1339.6654713999596,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9413234706117553,
+      "macro_f1": 0.9401341053565583,
+      "precision": 0.9431576450591196,
+      "recall": 0.9389766474772221,
+      "auroc": 0.997334075626079,
+      "validation_loss": 0.18808477437948878,
+      "validation_accuracy": 0.9413234706117553,
+      "round": 19,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.0599284212631214,
+      "per_client_training_loss": [
+        0.1082342641140179,
+        0.057092839864242864,
+        0.027575358587816574,
+        0.03042325914543851,
+        0.07631638460409115
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 74.2243138999911,
+      "total_experiment_time_seconds": 1413.8931365999742,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    },
+    {
+      "accuracy": 0.9455217912834866,
+      "macro_f1": 0.9444620910582056,
+      "precision": 0.9465513585533076,
+      "recall": 0.9432750541166371,
+      "auroc": 0.9975307298454023,
+      "validation_loss": 0.17745633097954944,
+      "validation_accuracy": 0.9455217912834866,
+      "round": 20,
+      "participating_clients": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected_client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "training_loss": 0.05168184837185601,
+      "per_client_training_loss": [
+        0.08926974598848998,
+        0.053285706919988476,
+        0.024921650212069137,
+        0.026456078328318772,
+        0.06447606041041368
+      ],
+      "aggregation": "plaintext",
+      "round_time_seconds": 75.15835139999399,
+      "total_experiment_time_seconds": 1489.0549049999681,
+      "communication_volume_bytes": 9679720,
+      "communication_volume_basis": "legacy estimated plaintext model upload plus download; not measured network traffic",
+      "plaintext_float_upload_bytes_estimate": 4839860
+    }
+  ],
+  "test_metrics": {
+    "accuracy": 0.8469359331476323,
+    "macro_f1": 0.7984712536093382,
+    "precision": 0.8104104387914088,
+    "recall": 0.7969398003299396,
+    "auroc": 0.9760839419304806,
+    "test_loss": 0.7421987349526924,
+    "test_accuracy": 0.8469359331476323,
+    "dataset": "pathmnist"
+  }
+}
