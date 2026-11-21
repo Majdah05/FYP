@@ -1,0 +1,21 @@
+dataset: pathmnist
+model: cnn
+num_clients: 3
+rounds: 5
+local_epochs: 1
+batch_size: 32
+# Starting values for experimentation; tune on validation data.
+lr: 0.001
+momentum: 0.9
+optimizer: sgd
+gradient_method: zo
+zo_mu: 0.001
+zo_directions: 1
+distribution: iid
+dirichlet_alpha: 0.5
+client_fraction: 1.0
+seed: 42
+device: auto
+aggregation: plaintext
+output_dir: results/zo_iid
+save_checkpoints: true

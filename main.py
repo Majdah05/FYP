@@ -52,6 +52,10 @@ def run_centralized_baseline(config, data_bundle, output_dir: Path):
         optimizer_name=config.optimizer,
         lr=config.lr,
         momentum=config.momentum,
+        gradient_method=getattr(config, 'gradient_method', 'backprop'),
+        zo_mu=getattr(config, 'zo_mu', 1e-3),
+        zo_directions=getattr(config, 'zo_directions', 1),
+        zo_seed=config.seed,
     )
     epochs = centralized_epoch_budget(config)
     result = trainer.train(data_bundle['train_loader'], data_bundle['val_loader'], epochs=epochs)

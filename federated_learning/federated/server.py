@@ -128,6 +128,10 @@ def run_federated_training(
                 device=device,
                 optimizer_name=config.optimizer,
                 momentum=config.momentum,
+                gradient_method=getattr(config, 'gradient_method', 'backprop'),
+                zo_mu=getattr(config, 'zo_mu', 1e-3),
+                zo_directions=getattr(config, 'zo_directions', 1),
+                zo_seed=config.seed + round_idx * config.num_clients + client_id,
             )
             client.load_global_model(global_state)
             local_result = client.local_train(
@@ -157,6 +161,8 @@ def run_federated_training(
         metrics['per_client_training_loss'] = round_losses
         metrics.update(he_metrics)
         metrics['aggregation'] = getattr(config, 'aggregation', 'plaintext')
+        metrics['gradient_method'] = getattr(config, 'gradient_method', 'backprop')
+        metrics['optimizer'] = config.optimizer
         metrics['round_time_seconds'] = time.perf_counter() - round_start
         metrics['total_experiment_time_seconds'] = time.perf_counter() - start_time
         metrics['communication_volume_bytes'] = estimate_communication_cost(selected_clients, global_model)

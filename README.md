@@ -40,6 +40,43 @@ python main.py --dataset pathmnist --num_clients 10 --rounds 50 --local_epochs 5
 
 The code uses a global model, randomly or Dirichlet-partitioned client data, local client updates, and FedAvg aggregation.
 
+### Select training and aggregation independently
+
+`--gradient_method` selects backpropagation (the default) or zeroth-order (ZO)
+gradient estimation. `--optimizer` selects SGD or Adam, and `--aggregation`
+selects plaintext or CKKS. Existing commands and YAML files continue to use
+backpropagation unless ZO is explicitly selected.
+
+```bash
+# SGD + plaintext (existing behavior)
+python main.py --optimizer sgd --aggregation plaintext
+
+# SGD + CKKS (existing behavior; requires requirements-he.txt)
+python main.py --optimizer sgd --aggregation ckks
+
+# ZO-SGD + plaintext
+python main.py --gradient_method zo --optimizer sgd --aggregation plaintext --lr 0.001
+
+# ZO-SGD + CKKS (requires requirements-he.txt)
+python main.py --gradient_method zo --optimizer sgd --aggregation ckks --lr 0.001
+```
+
+ZO uses two-sided SPSA with random signs, then passes the estimated gradients to
+the selected optimizer. Adjust `--zo_mu` (default `0.001`) and
+`--zo_directions` (default `1`) independently of `--lr`. The example learning
+rate is a starting point, not a tuned PathMNIST result. The centralized
+comparison uses the same gradient method and optimizer as the clients.
+
+An example configuration is available in `configs/pathmnist_iid_zo.yaml`:
+
+```bash
+python main.py --config configs/pathmnist_iid_zo.yaml
+python main.py --config configs/pathmnist_iid_zo.yaml --aggregation ckks
+```
+
+See [zeroth-order training](docs/zeroth_order.md) for the estimator, reproducibility,
+forward-evaluation cost, and experiment guidance.
+
 ## 5. Configurations
 
 A YAML config can be used as a base and CLI flags override it:

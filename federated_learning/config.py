@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -18,6 +19,9 @@ class ExperimentConfig:
     lr: float = 0.01
     momentum: float = 0.9
     optimizer: str = 'sgd'
+    gradient_method: str = 'backprop'
+    zo_mu: float = 1e-3
+    zo_directions: int = 1
     distribution: str = 'iid'
     dirichlet_alpha: float = 0.5
     client_fraction: float = 1.0
@@ -54,6 +58,14 @@ class ExperimentConfig:
             raise ValueError('momentum must be in [0,1).')
         if self.optimizer.lower() not in {'sgd', 'adam'}:
             raise ValueError("optimizer must be 'sgd' or 'adam'.")
+        if self.gradient_method not in {'backprop', 'zo'}:
+            raise ValueError("gradient_method must be 'backprop' or 'zo'.")
+        if (isinstance(self.zo_mu, bool) or not isinstance(self.zo_mu, (int, float))
+                or not math.isfinite(self.zo_mu) or self.zo_mu <= 0):
+            raise ValueError('zo_mu must be finite and positive.')
+        if (isinstance(self.zo_directions, bool) or not isinstance(self.zo_directions, int)
+                or self.zo_directions <= 0):
+            raise ValueError('zo_directions must be a positive integer.')
         if self.distribution not in {'iid', 'non_iid'}:
             raise ValueError("distribution must be 'iid' or 'non_iid'.")
         if not (0 < self.client_fraction <= 1):
@@ -97,6 +109,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--momentum', type=float, default=0.9)
     parser.add_argument('--optimizer', type=str, default='sgd', choices=['sgd', 'adam'])
+    parser.add_argument('--gradient_method', choices=['backprop', 'zo'],
+                        help='Backpropagation (default) or forward-only zeroth-order gradient estimation.')
+    parser.add_argument('--zo_mu', type=float, help='Positive ZO perturbation size (default: 0.001).')
+    parser.add_argument('--zo_directions', type=int, help='ZO directions per minibatch (default: 1).')
     parser.add_argument('--distribution', type=str, default='iid', choices=['iid', 'non_iid'])
     parser.add_argument('--dirichlet_alpha', type=float, default=0.5)
     parser.add_argument('--client_fraction', type=float, default=1.0)
